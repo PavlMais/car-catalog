@@ -1,0 +1,16 @@
+<p-dataView [value]="cars" layout='grid'>
+  <ng-template let-car pTemplate="listItem">
+    <div>
+      <div class="car-list-item">
+        {{car.name}}
+      </div>
+    </div>
+  </ng-template>
+  <ng-template let-car pTemplate="gridItem">
+    <div>
+      <div class="car-grid-item">
+        {{car.name}}
+      </div>
+    </div>
+  </ng-template>
+</p-dataView>

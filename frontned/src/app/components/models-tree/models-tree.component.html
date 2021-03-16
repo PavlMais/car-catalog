@@ -1,0 +1,13 @@
+<p-tree 
+  [value]="models"
+  (onNodeExpand)="loadNode($event)"
+  selectionMode="single" 
+  [(selection)]="selectedFile"
+  (onNodeSelect)="nodeSelect($event)" 
+  [contextMenu]="cm" 
+  scrollHeight="600px" 
+
+  
+>
+  <p-contextMenu #cm [model]="items"></p-contextMenu>
+</p-tree>
