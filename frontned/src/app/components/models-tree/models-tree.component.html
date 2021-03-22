@@ -6,8 +6,8 @@
   (onNodeSelect)="nodeSelect($event)" 
   [contextMenu]="cm" 
   scrollHeight="600px" 
-
+  styleClass="test-override"
   
 >
-  <p-contextMenu #cm [model]="items"></p-contextMenu>
 </p-tree>
+<p-contextMenu #cm [model]="items"></p-contextMenu>

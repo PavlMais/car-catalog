@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Model } from 'src/app/core/models';
-import { ModelService } from 'src/app/core/services/model.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { Car } from 'src/app/core/models';
+import { CarService } from 'src/app/core/services/car.service';
 
 
 @Component({
@@ -11,13 +11,13 @@ import { ModelService } from 'src/app/core/services/model.service';
 export class ModelsListComponent implements OnInit {
 
 
-  cars: Model[] = []
+  @Input() cars: Car[] = []
 
 
-  constructor(private _serviceModel: ModelService) { }
+  constructor(private _serviceCar: CarService) { }
 
   ngOnInit(): void {
-    this._serviceModel.getAll().subscribe(m => this.cars = m)
+    //this._serviceCar.getAll().subscribe(m => this.cars = m)
   }
 
 }

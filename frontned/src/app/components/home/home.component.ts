@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Car } from 'src/app/core/models';
+import { CarFilter } from 'src/app/core/models/cars_filter';
+import { CarService } from 'src/app/core/services/car.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  cars: Car[] = []
 
-  ngOnInit(): void {
+  filters: CarFilter = {
+    priceFrom: undefined,
+    priceTo: undefined,
+    priceDate: undefined,
+    color: undefined,
+    engineValue: undefined
   }
 
+  constructor(private _serviceCar: CarService) { }
+
+  ngOnInit(): void {
+    this._serviceCar.getAll().subscribe(m => this.cars = m)
+  }
 }

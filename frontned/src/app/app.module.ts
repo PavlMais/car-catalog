@@ -20,12 +20,20 @@ import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { ModelsListComponent } from './components/models-list/models-list.component';
 import { DataViewModule } from 'primeng/dataview';
+import { CarsFiltersComponent } from './components/cars-filters/cars-filters.component';
+import {DropdownModule} from 'primeng/dropdown';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {CalendarModule} from 'primeng/calendar';
+import { ModalComponent } from './components/modal/modal.component';
+import {InputTextModule} from 'primeng/inputtext';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ModelsTreeComponent,
-    ModelsListComponent
+    ModelsListComponent,
+    CarsFiltersComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +49,11 @@ import { DataViewModule } from 'primeng/dataview';
     ToastModule,
     ButtonModule,
     FormsModule,
-    DataViewModule
+    DataViewModule,
+    DropdownModule,
+    InputNumberModule,
+    CalendarModule,
+    InputTextModule
   ],
   providers: [],
   bootstrap: [AppComponent]

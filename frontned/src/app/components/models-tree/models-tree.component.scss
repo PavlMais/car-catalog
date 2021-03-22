@@ -1,0 +1,6 @@
+:host {
+  ::ng-deep .test-override {
+      // background-color: red;
+      padding: 0; 
+  }    
+}

@@ -1,0 +1,24 @@
+<div>
+  <div>Filter:</div>
+  Color: 
+  <p-dropdown 
+    [options]="colors" 
+    [(ngModel)]="filters.color" 
+    optionLabel="name"
+    [filter]="true"
+    [autofocusFilter]="true"
+    ></p-dropdown>
+
+    From:
+    <p-inputNumber [(ngModel)]="filters.priceFrom" locale="en-US"></p-inputNumber>
+    To:
+    <p-inputNumber [(ngModel)]="filters.priceTo" locale="en-US"></p-inputNumber>
+    On date:
+    <p-calendar [(ngModel)]="filters.priceDate" [showIcon]="true"></p-calendar>
+        <!--TODO: set min and max  -->
+    Engine value:
+    <p-inputNumber [(ngModel)]="filters.engineValue" locale="en-US"></p-inputNumber>
+
+    
+
+</div>

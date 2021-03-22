@@ -1,5 +1,6 @@
 <div class="base">
   <app-models-tree class="models-tree">Tree</app-models-tree>
-  <app-models-list class="models-list">List</app-models-list>
-  <div class="models-filter">Filter</div>
+  <app-models-list [cars]="cars" class="models-list" >List</app-models-list>
+  <app-cars-filters [(filters)]="filters" class="models-filter">Filter</app-cars-filters>
+  <app-modal></app-modal>
 </div>
