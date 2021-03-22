@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Car_catalog.Data.Entities;
@@ -23,7 +24,7 @@ namespace Car_catalog.Controllers
                 cfg =>
                 {
                     cfg.CreateMap<Color, ColorModel>();
-                    cfg.CreateMap<ColorModel, Color>();
+                    cfg.CreateMap<NewColorModel, Color>();
                 });
             _mapper = new Mapper(config);
         }
@@ -31,32 +32,33 @@ namespace Car_catalog.Controllers
         [HttpGet()]
         public async Task<ActionResult<List<ColorModel>>> GetAll()
         {
-            var colors = _mapper.Map<List<ModelModel>>(_colorRepository.GetAll());
+            var colors = _mapper.Map<List<ColorModel>>(_colorRepository.GetAll());
             return new OkObjectResult(colors);
         }
         
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<ModelModel>>> GetById(long id)
+        public async Task<ActionResult<List<ColorModel>>> GetById(long id)
         {
-            var color = _mapper.Map<ModelModel>(await _colorRepository.GetById(id));
+            var color = _mapper.Map<ColorModel>(await _colorRepository.GetById(id));
             return new OkObjectResult(color);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] ColorModel colormodel)
+        public async Task<IActionResult> Add([FromBody] NewColorModel colorModel)
         {
-            var color = _mapper.Map<Color>(colormodel);
+            Console.WriteLine(colorModel.Name);
+            var color = _mapper.Map<Color>(colorModel);
+            Console.WriteLine(color.Name);
             _colorRepository.Add(color);
             await _colorRepository.Save();
-
 
             return CreatedAtAction(nameof(GetById), new {id = color.Id}, color);
         }
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit(long id, [FromBody] ModelModel modelmodel)
+        public async Task<IActionResult> Edit(long id, [FromBody] NewColorModel colorModel)
         {
-            var color = _mapper.Map<Color>(modelmodel);
+            var color = _mapper.Map<Color>(colorModel);
             color.Id = id;
             _colorRepository.Update(color);
             await _colorRepository.Save();
@@ -64,7 +66,7 @@ namespace Car_catalog.Controllers
             return NoContent();
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Edit(long id)
+        public async Task<IActionResult> Delete(long id)
         {
             _colorRepository.DeleteById(id);
             await _colorRepository.Save();

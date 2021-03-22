@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Car_catalog.Data.Entities
@@ -15,8 +16,11 @@ namespace Car_catalog.Data.Entities
         public long ModelId { get; set; }
         public long ColorId { get; set; }
 
+        [JsonIgnore]
         public virtual Brand Brand { get; set; }
+        [JsonIgnore]
         public virtual Model Model { get; set; }
+        [JsonIgnore]
         public virtual Color Color { get; set; }
         public ICollection<Price> Prices { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Car_catalog.Data.Entities;
@@ -25,6 +26,10 @@ namespace Car_catalog.Controllers
                 {
                     cfg.CreateMap<Car, CarModel>();
                     cfg.CreateMap<NewCarModel, Car>();
+                    cfg.CreateMap<Price, PriceModel>();
+                    cfg.CreateMap<Brand, BrandModel>();
+                    cfg.CreateMap<Model, ModelModel>();
+                    cfg.CreateMap<Color, ColorModel>();
                 });
             _mapper = new Mapper(config);
         }
@@ -39,19 +44,23 @@ namespace Car_catalog.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<List<CarModel>>> GetById(long id)
         {
-            var cars = _mapper.Map<CarModel>(await _carRepository.GetById(id));
-            return new OkObjectResult(cars);
+            var eCar = await _carRepository.GetById(id);
+            
+            var car = _mapper.Map<CarModel>(eCar);
+            
+            return new OkObjectResult(car);
         }
 
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] NewCarModel model)
         {
             var car = _mapper.Map<Car>(model);
+            
             _carRepository.Add(car);
-            car.Prices.Add(new Price(){Value = model.Price, CarId = car.Id});
+            car.Prices.Add(new Price(){Value = model.Price});
+            
             await _carRepository.Save();
-
-
+            
             return CreatedAtAction(nameof(GetById), new {id = car.Id}, car);
         }
         

@@ -6,12 +6,10 @@ namespace Car_catalog.Models
     public class NewCarModel
     {
         public string Description { get; set; }
-        [Required]
         public double EngineVolume { get; set; }
-        [Required]
-        public int BrandId { get; set; }
-        public int ModelId { get; set; }
-        public int ColorId { get; set; }
-        public double Price { get; set; }
+        public long BrandId { get; set; }
+        public long ModelId { get; set; }
+        public long ColorId { get; set; }
+        public decimal Price { get; set; }
     }
 }

@@ -36,6 +36,7 @@ namespace Car_catalog
             services.AddTransient<ICarRepository, CarRepository>();  
             services.AddTransient<IBrandRepository, BrandRepository>();  
             services.AddTransient<IModelRepository, ModelRepository>();  
+            services.AddTransient<IColorRepository, ColorRepository>();  
             
             
             services.AddControllers();

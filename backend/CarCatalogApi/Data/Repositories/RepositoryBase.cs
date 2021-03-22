@@ -19,6 +19,7 @@ namespace Car_catalog.Data.Repositories
         {
             return Context.Set<T>();
         }
+        
         public async Task<T> GetById(long id)
         {
             return await Context.Set<T>().FindAsync(id);
