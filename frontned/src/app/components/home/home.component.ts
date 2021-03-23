@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { Car } from 'src/app/core/models';
 import { CarFilter } from 'src/app/core/models/cars_filter';
 import { CarService } from 'src/app/core/services/car.service';
-
+import { map } from 'rxjs/operators'
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -23,6 +23,9 @@ export class HomeComponent implements OnInit {
   constructor(private _serviceCar: CarService) { }
 
   ngOnInit(): void {
-    this._serviceCar.getAll().subscribe(m => this.cars = m)
+    console.log("Update...")
+    this._serviceCar.getAll()
+                    .pipe(map(ca => ca.map(c => ({...c, price: c.prices.slice(-1)[0].value}))))
+                    .subscribe(m => this.cars = m);
   }
 }

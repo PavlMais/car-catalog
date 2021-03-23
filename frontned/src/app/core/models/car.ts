@@ -4,5 +4,5 @@ export interface Car {
   brandId: number
   modelId: number
   colorId: number
-  prices: number[]
+  prices: any[]
 }

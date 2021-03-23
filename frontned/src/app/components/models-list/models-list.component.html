@@ -1,16 +1,37 @@
-<p-dataView [value]="cars" layout='grid'>
-  <ng-template let-car pTemplate="listItem">
-    <div>
-      <div class="car-list-item">
-        {{car.description}}
+<div class="cars-list">
+
+  <p-dataView [value]="cars" [layout]="l">
+    <ng-template pTemplate="header">
+      <div class="p-d-flex p-jc-between p-ai-center">
+        <b>Cars: 123</b>
+        <div>
+          {{selectedColumns === 1 ? 'list' : 'grid'}}
+          Columns:
+          <input id="float-input" [(ngModel)]="selectedColumns" type="number" pInputText> 
+
+        </div>
       </div>
-    </div>
-  </ng-template>
-  <ng-template let-car pTemplate="gridItem">
-    <div>
-      <div class="car-grid-item">
-        {{car.brand.name}}
+
+    </ng-template>
+
+    <ng-template let-car pTemplate="listItem">
+      <div>
+        <div class="car-list-item">
+          {{car.description}}
+        </div>
       </div>
-    </div>
-  </ng-template>
-</p-dataView>
+    </ng-template>
+
+
+    <ng-template let-car pTemplate="gridItem">
+      <div [ngClass]="'p-col-12 p-md-' + ( 7 - selectedColumns)">
+        <div class="car-grid-item p-p-1">
+          <div><b>Brand:</b> {{car.brand.name}}</div>
+          <div><b>Model:</b> {{car.model.name}}</div>
+          <div><b>Price:</b> {{car.price}}</div>
+          <div><b>Description:</b> {{car.description}}</div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+</div>

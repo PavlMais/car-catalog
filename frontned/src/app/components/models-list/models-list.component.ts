@@ -13,6 +13,10 @@ export class ModelsListComponent implements OnInit {
 
   @Input() cars: Car[] = []
 
+  columns = [1,2,3,4,5]
+  selectedColumns = 3
+  l ="gride"
+
 
   constructor(private _serviceCar: CarService) { }
 

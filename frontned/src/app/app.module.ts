@@ -26,6 +26,9 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import {CalendarModule} from 'primeng/calendar';
 import { ModalComponent } from './components/modal/modal.component';
 import {InputTextModule} from 'primeng/inputtext';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
+import { CarItemComponent } from './components/car-item/car-item.component';
+import { CarModalComponent } from './components/car-modal/car-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +37,9 @@ import {InputTextModule} from 'primeng/inputtext';
     ModelsListComponent,
     CarsFiltersComponent,
     ModalComponent,
+    ConfirmModalComponent,
+    CarItemComponent,
+    CarModalComponent,
   ],
   imports: [
     BrowserModule,

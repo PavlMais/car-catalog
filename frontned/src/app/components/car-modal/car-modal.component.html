@@ -1,0 +1,41 @@
+<p-dialog header="Create car" [(visible)]="display">
+  <div class="">
+
+    <div class="p-d-flex">
+      <span class="p-float-label p-mt-4 full-width">
+        <p-dropdown id="brand-input" [options]="brands" [autoDisplayFirst]="false" [(ngModel)]="selectedBrand" optionLabel="name" [style]="{'width':'100%'}"></p-dropdown>
+        <label for="brand-input">Brand:</label>
+      </span>
+      <span class="p-float-label p-mt-4 full-width">
+        <p-dropdown id="brand-input" [options]="models" [autoDisplayFirst]="false" [(ngModel)]="selectedModel" optionLabel="name" [style]="{'width':'100%'}"></p-dropdown>
+        <label for="brand-input">Model:</label>
+      </span>
+    </div>
+
+    <span class="p-float-label p-mt-4">
+      <p-dropdown id="brand-input" [options]="colors" [autoDisplayFirst]="false" [(ngModel)]="selectedColor" optionLabel="name" [style]="{'width':'100%'}"></p-dropdown>
+      <label for="brand-input">Color:</label>
+    </span>
+
+    <div class="p-d-flex">
+      <span class="p-float-label p-mt-4">
+        <input id="float-input" [(ngModel)]="price" type="number" pInputText> 
+        <label for="float-input">Price:</label>
+      </span>
+      <span class="p-float-label p-mt-4">
+        <input id="float-input" [(ngModel)]="engineValue" type="number" pInputText> 
+        <label for="float-input">Engine volume:</label>
+      </span>
+    </div>
+
+    <span class="p-float-label p-mt-4">
+      <textarea id="float-input" [(ngModel)]="description" [rows]="8" [cols]="50" pInputTextarea></textarea>
+      <label for="float-input">Description:</label>
+    </span>
+
+  </div>
+  
+  <p-footer>
+    <p-button >Save</p-button>
+  </p-footer>
+</p-dialog>

@@ -6,12 +6,16 @@ export abstract class BaseCrudService<T> {
 
   constructor(protected _api: ApiService, protected route: string) { }
 
-  getAll(params: HttpParams = new HttpParams()) {
+  getAll(params = {}) {
     return this._api.get(`/${this.route}`, params).pipe((data) => data) as Observable<T[]>
   }
 
-  get(id: number) {
-    return this._api.get(`/${this.route}/${id}`).pipe((data) => data) as Observable<T>
+  getById(id: number) {
+    return this.get(id.toString())
+  }
+  
+  get(url: string, params = {}){
+    return this._api.get(`/${this.route}/${url}`, params).pipe((data) => data) as Observable<T>
   }
   delete(id: number) {
     this._api.delete(`/${this.route}/${id}`)

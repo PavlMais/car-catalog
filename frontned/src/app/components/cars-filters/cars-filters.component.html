@@ -1,24 +1,33 @@
-<div>
-  <div>Filter:</div>
-  Color: 
-  <p-dropdown 
+<div class="p-p-2">
+  <b>Filters:</b>
+  
+  <span class="p-float-label p-mt-5">
+    <p-dropdown 
     [options]="colors" 
     [(ngModel)]="filters.color" 
     optionLabel="name"
     [filter]="true"
     [autofocusFilter]="true"
+    [autoDisplayFirst]="false"
     ></p-dropdown>
+    <label for="price-from-input">Color:</label>
+  </span>
 
-    From:
-    <p-inputNumber [(ngModel)]="filters.priceFrom" locale="en-US"></p-inputNumber>
-    To:
-    <p-inputNumber [(ngModel)]="filters.priceTo" locale="en-US"></p-inputNumber>
-    On date:
-    <p-calendar [(ngModel)]="filters.priceDate" [showIcon]="true"></p-calendar>
-        <!--TODO: set min and max  -->
-    Engine value:
-    <p-inputNumber [(ngModel)]="filters.engineValue" locale="en-US"></p-inputNumber>
-
-    
-
+  <span class="p-float-label p-mt-5">
+    <input id="price-from-input" [(ngModel)]="filters.priceFrom" type="text" pInputText> 
+    <label for="price-from-input">From:</label>
+  </span>
+  <span class="p-float-label  p-mt-5">
+    <input id="price-to-input" [(ngModel)]="filters.priceTo" type="text" pInputText> 
+    <label for="price-to-input">To:</label>
+  </span>
+  <span class="p-float-label  p-mt-5">
+    <p-calendar id="price-date-input" [(ngModel)]="filters.priceDate" [showIcon]="true"></p-calendar>
+    <label for="price-date-input">On date:</label>
+  </span>
+  
+  <span class="p-float-label  p-mt-5">
+    <input id="engine-value-input" [(ngModel)]="filters.engineValue" type="text" pInputText> 
+    <label for="engine-value-input">Engine value:</label>
+  </span>
 </div>

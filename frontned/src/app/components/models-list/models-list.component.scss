@@ -1,7 +1,15 @@
+.cars-list{
+  padding: 10px;
+  margin: 10px;
+  border-left: 2px solid #ccc;
+  border-right: 2px solid #ccc;
+}
+
+
 .car-list-item{
   border: 1px solid green;
 }
 .car-grid-item{
   border: 1px solid orange;
-  width: 100px;
+  // width: 100px;
 }

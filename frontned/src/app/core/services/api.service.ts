@@ -13,8 +13,13 @@ export class ApiService {
     return throwError(error.error);
   }
 
-  get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
-    return this.http.get(`${environment.api_base_url}${path}`, { params })
+  get(path: string, params: Record<string, any> = {}): Observable<any> {
+    Object.keys(params).forEach(key => !params[key] ? delete params[key] : {});
+
+
+    return this.http.get(`${environment.api_base_url}${path}`, { 
+      params: new HttpParams({fromObject: params})
+     })
       .pipe(catchError(this.formatErrors));
   }
 
