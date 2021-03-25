@@ -11,7 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccordionModule } from 'primeng/accordion';
 import { TreeModule } from 'primeng/tree';
 import { CoreModule } from './core/core.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ContextMenuModule } from 'primeng/contextmenu';
 
 import { ToastModule } from 'primeng/toast';
@@ -29,6 +29,9 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { CarItemComponent } from './components/car-item/car-item.component';
 import { CarDialogComponent } from './components/car-dialog/car-dialog.component';
 import { BrandDialogComponent } from './components/brand-dialog/brand-dialog.component';
+import { ModelDialogComponent } from './components/model-dialog/model-dialog.component';
+import { HeaderInterceptor as HeaderInterceptor } from './core/interceptors/header-interceptor.service';
+import { CarPageComponent } from './components/car-page/car-page.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +43,8 @@ import { BrandDialogComponent } from './components/brand-dialog/brand-dialog.com
     CarItemComponent,
     CarDialogComponent,
     BrandDialogComponent,
+    ModelDialogComponent,
+    CarPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,7 +66,11 @@ import { BrandDialogComponent } from './components/brand-dialog/brand-dialog.com
     CalendarModule,
     InputTextModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: HeaderInterceptor,
+    multi: true,
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

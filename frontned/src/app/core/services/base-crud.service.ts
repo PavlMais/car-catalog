@@ -18,9 +18,12 @@ export abstract class BaseCrudService<T> {
     return this._api.get(`/${this.route}/${url}`, params).pipe((data) => data) as Observable<T>
   }
   delete(id: number) {
-    this._api.delete(`/${this.route}/${id}`)
+    return this._api.delete(`/${this.route}/${id}`)
   }
   create(item: T) {
-    this._api.post(`/${this.route}`, item)
+    return this._api.post(`/${this.route}`, item)
+  }
+  update(itemId: number, item: T){
+    return this._api.put(`/${this.route}/${itemId}`, item)
   }
 }
