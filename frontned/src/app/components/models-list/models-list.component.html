@@ -1,9 +1,8 @@
 <div class="cars-list">
-
-  <p-dataView [value]="cars" [layout]="l">
+  <p-dataView [value]="cars" layout="grid">
     <ng-template pTemplate="header">
       <div class="p-d-flex p-jc-between p-ai-center">
-        <b>Cars: 123</b>
+        <b>Cars: {{cars.length}}</b>
         <div>
           {{selectedColumns === 1 ? 'list' : 'grid'}}
           Columns:

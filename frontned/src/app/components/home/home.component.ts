@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Car } from 'src/app/core/models';
 import { CarFilter } from 'src/app/core/models/cars_filter';
 import { CarService } from 'src/app/core/services/car.service';
@@ -23,9 +23,15 @@ export class HomeComponent implements OnInit {
   constructor(private _serviceCar: CarService) { }
 
   ngOnInit(): void {
-    console.log("Update...")
     this._serviceCar.getAll()
-                    .pipe(map(ca => ca.map(c => ({...c, price: c.prices.slice(-1)[0].value}))))
-                    .subscribe(m => this.cars = m);
+    // .pipe(map(ca => ca.map(c => ({...c}))))
+    .subscribe(m => this.cars = m);
+    //this.cars = [{engineVolume: 343, prices: [43], description: '43', colorId:3, brandId:3, modelId:3}]
+  }
+  
+  filtersChange(){
+    console.log("Update...")
+    console.log(this.cars)
+
   }
 }

@@ -21,7 +21,7 @@ export class ModelsListComponent implements OnInit {
   constructor(private _serviceCar: CarService) { }
 
   ngOnInit(): void {
-    //this._serviceCar.getAll().subscribe(m => this.cars = m)
+    console.log("prop: ", this.cars)
   }
 
 }

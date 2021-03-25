@@ -5,6 +5,7 @@
     <p-dropdown 
     [options]="colors" 
     [(ngModel)]="filters.color" 
+    (onChange)="changed()"
     optionLabel="name"
     [filter]="true"
     [autofocusFilter]="true"
@@ -14,20 +15,22 @@
   </span>
 
   <span class="p-float-label p-mt-5">
-    <input id="price-from-input" [(ngModel)]="filters.priceFrom" type="text" pInputText> 
+    <p-inputNumber id="price-from-input" [(ngModel)]="filters.priceFrom" (onInput)="changed()"></p-inputNumber> 
+
     <label for="price-from-input">From:</label>
   </span>
   <span class="p-float-label  p-mt-5">
-    <input id="price-to-input" [(ngModel)]="filters.priceTo" type="text" pInputText> 
+    <p-inputNumber id="price-to-input" [(ngModel)]="filters.priceTo" (onInput)="changed()"></p-inputNumber> 
+
     <label for="price-to-input">To:</label>
   </span>
   <span class="p-float-label  p-mt-5">
-    <p-calendar id="price-date-input" [(ngModel)]="filters.priceDate" [showIcon]="true"></p-calendar>
+    <p-calendar id="price-date-input" [(ngModel)]="filters.priceDate" (onSelect)="changed()" [showIcon]="true"></p-calendar>
     <label for="price-date-input">On date:</label>
   </span>
   
   <span class="p-float-label  p-mt-5">
-    <input id="engine-value-input" [(ngModel)]="filters.engineValue" type="text" pInputText> 
+    <p-inputNumber id="engine-value-input" [(ngModel)]="filters.engineValue" (onInput)="changed()"></p-inputNumber> 
     <label for="engine-value-input">Engine value:</label>
   </span>
 </div>

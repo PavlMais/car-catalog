@@ -1,4 +1,4 @@
-import { ConfirmModalComponent } from './../confirm-modal/confirm-modal.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MenuItem, TreeNode } from 'primeng/api';
 import { BrandService } from 'src/app/core/services/brand.service';
@@ -7,8 +7,8 @@ import { map } from 'rxjs/operators';
 import { Brand } from 'src/app/core/models';
 import { ModelService } from 'src/app/core/services/model.service';
 import { HttpParams } from '@angular/common/http';
-import { ModalService } from 'src/app/core/services/modal.service';
-import { ModalComponent } from '../modal/modal.component';
+import { DialogService } from 'src/app/core/services/dialog.service';
+import { BrandDialogComponent } from '../brand-dialog/brand-dialog.component';
 @Component({
   selector: 'app-models-tree',
   templateUrl: './models-tree.component.html',
@@ -25,21 +25,21 @@ export class ModelsTreeComponent implements OnInit {
   @Output() selected = new EventEmitter();
 
   constructor(
-    private _serviceBrand: BrandService,
-    private _serviceModel: ModelService,
-    private _serviceModal: ModalService) { }
+    private _brandService: BrandService,
+    private _modelService: ModelService,
+    private _dialogService: DialogService) { }
 
   ngOnInit(): void {
-    this._serviceBrand.getAll().pipe(map(d => this.brandsToTreeNodes(d, false)))
+    this._brandService.getAll().pipe(map(d => this.brandsToTreeNodes(d, false)))
       .subscribe(data => this.models = data);
 
     this.items = [
       { label: 'Add brand', icon: 'pi pi-plus', command: (event) => { 
-        this._serviceModal.openModal(ModalComponent.name)
+        this._dialogService.openDialog(BrandDialogComponent.name)
       } },
       { label: 'Edit', icon: 'pi pi-pencil', command: (event) => { } },
       { label: 'Delete', icon: 'pi pi-trash', command: (event) => { 
-        this._serviceModal.openModal(ConfirmModalComponent.name, "Delete brand?")
+        this._dialogService.openDialog(ConfirmDialogComponent.name, "Delete brand?")
       } }
     ];
 
@@ -52,7 +52,7 @@ export class ModelsTreeComponent implements OnInit {
     if (event.node) {
       
 
-      this._serviceModel.getAll(new HttpParams().set('brandId', event.node.data))
+      this._modelService.getAll(new HttpParams().set('brandId', event.node.data))
                         .pipe(map(d => this.brandsToTreeNodes(d, true)))
                         .subscribe(nodes => {
         event.node.children = nodes

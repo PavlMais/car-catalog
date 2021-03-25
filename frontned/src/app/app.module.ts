@@ -21,14 +21,14 @@ import { FormsModule } from '@angular/forms';
 import { ModelsListComponent } from './components/models-list/models-list.component';
 import { DataViewModule } from 'primeng/dataview';
 import { CarsFiltersComponent } from './components/cars-filters/cars-filters.component';
-import {DropdownModule} from 'primeng/dropdown';
-import {InputNumberModule} from 'primeng/inputnumber';
-import {CalendarModule} from 'primeng/calendar';
-import { ModalComponent } from './components/modal/modal.component';
-import {InputTextModule} from 'primeng/inputtext';
-import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CalendarModule } from 'primeng/calendar';
+import { InputTextModule } from 'primeng/inputtext';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { CarItemComponent } from './components/car-item/car-item.component';
-import { CarModalComponent } from './components/car-modal/car-modal.component';
+import { CarDialogComponent } from './components/car-dialog/car-dialog.component';
+import { BrandDialogComponent } from './components/brand-dialog/brand-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,10 +36,10 @@ import { CarModalComponent } from './components/car-modal/car-modal.component';
     ModelsTreeComponent,
     ModelsListComponent,
     CarsFiltersComponent,
-    ModalComponent,
-    ConfirmModalComponent,
+    ConfirmDialogComponent,
     CarItemComponent,
-    CarModalComponent,
+    CarDialogComponent,
+    BrandDialogComponent,
   ],
   imports: [
     BrowserModule,

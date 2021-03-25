@@ -1,0 +1,11 @@
+<p-dialog  header="Create brand" [(visible)]="display">
+  <div class="p-d-flex p-flex-column p-field">
+    <label for="brand-name">Username</label>
+    <input id="brand-name" [formControl]="nameControl" class="{'ng-invalid ng-dirty': nameControl.valid}" pInputText/>
+    <small id="brand-name" [hidden]="nameControl.valid"  class="p-error">Username is not available.</small>
+</div>
+
+<p-footer>
+  <p-button (click)="addBrand()">Add</p-button>
+</p-footer>
+</p-dialog>

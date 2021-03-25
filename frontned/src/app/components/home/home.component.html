@@ -1,8 +1,8 @@
 <div class="base">
-  <app-models-tree class="models-tree">Tree</app-models-tree>
-  <app-models-list [cars]="cars" class="models-list" >List</app-models-list>
-  <app-cars-filters [(filters)]="filters" class="models-filter">Filter</app-cars-filters>
-  <app-modal></app-modal>
-  <app-confirm-modal></app-confirm-modal>
-  <app-car-modal></app-car-modal>
+  <app-models-tree class="models-tree"></app-models-tree>
+  <app-models-list [cars]="cars" class="models-list" ></app-models-list>
+  <app-cars-filters [(filters)]="filters" (filtersChange)="filtersChange()" class="models-filter"></app-cars-filters>
+  <app-confirm-dialog></app-confirm-dialog>
+  <app-car-dialog></app-car-dialog>
+  <app-brand-dialog></app-brand-dialog>
 </div>
