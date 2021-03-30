@@ -37,7 +37,7 @@ namespace Car_catalog
             services.AddTransient<IBrandRepository, BrandRepository>();  
             services.AddTransient<IModelRepository, ModelRepository>();  
             services.AddTransient<IColorRepository, ColorRepository>();  
-            
+            services.AddLogging();
             
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -46,7 +46,7 @@ namespace Car_catalog
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -58,6 +58,7 @@ namespace Car_catalog
                         .AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod());
+                loggerFactory.CreateLogger("CAT:");
             }
 
             app.UseHttpsRedirection();

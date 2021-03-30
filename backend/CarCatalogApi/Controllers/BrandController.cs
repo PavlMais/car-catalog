@@ -32,8 +32,8 @@ namespace Car_catalog.Controllers
         [HttpGet()]
         public async Task<IActionResult> GetAll()
         {
-            //var brands = _mapper.Map<List<BrandModel>>(_brandRepository.GetAll());
-            return new OkObjectResult(_brandRepository.GetAll());
+            var brands = _mapper.Map<List<BrandModel>>(_brandRepository.GetAll());
+            return new OkObjectResult(brands);
         }
         
         [HttpGet("{id}")]

@@ -17,5 +17,6 @@ namespace Car_catalog.Models
         
        
         public List<PriceModel> Prices { get; set; }
+        public decimal Price { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Car_catalog.Data.Entities;
+using Car_catalog.Data.KeylessEntity;
 using Car_catalog.Data.Repositories;
 using Car_catalog.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -35,9 +36,9 @@ namespace Car_catalog.Controllers
         }
 
         [HttpGet()]
-        public async Task<ActionResult<List<CarModel>>> GetAll()
+        public async Task<ActionResult<List<CarPrice>>> GetAll([FromQuery] CarFilters carFilters)
         {
-            var cars = _mapper.Map<List<CarModel>>(_carRepository.GetAll());
+            var cars = _mapper.Map<CarModel[]>(_carRepository.GetFiltered(carFilters));
             return new OkObjectResult(cars);
         }
         
