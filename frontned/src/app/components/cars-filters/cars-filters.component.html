@@ -4,10 +4,12 @@
   <span class="p-float-label p-mt-5">
     <p-dropdown 
     [options]="colors" 
-    [(ngModel)]="filters.color" 
-    (onChange)="changed()"
+    [(ngModel)]="filters.colorId" 
+    (onChange)="changed('colorId', $event.value)"
+    [showClear]="true"
     optionLabel="name"
     [filter]="true"
+    optionValue="id"
     [autofocusFilter]="true"
     [autoDisplayFirst]="false"
     [style]="{'width':'100%'}"
@@ -16,22 +18,22 @@
   </span>
 
   <span class="p-float-label p-mt-5">
-    <p-inputNumber id="price-from-input" [(ngModel)]="filters.priceFrom" (onInput)="changed()"></p-inputNumber> 
+    <p-inputNumber id="price-from-input" [(ngModel)]="filters.priceFrom" (onInput)="changed('priceFrom', $event.value)"></p-inputNumber> 
 
     <label for="price-from-input">From:</label>
   </span>
   <span class="p-float-label  p-mt-5">
-    <p-inputNumber id="price-to-input" [(ngModel)]="filters.priceTo" (onInput)="changed()"></p-inputNumber> 
+    <p-inputNumber id="price-to-input" [(ngModel)]="filters.priceTo" (onInput)="changed('priceTo', $event.value)"></p-inputNumber> 
 
     <label for="price-to-input">To:</label>
   </span>
   <span class="p-float-label  p-mt-5">
-    <p-calendar id="price-date-input" [(ngModel)]="filters.priceDate" (onSelect)="changed()" [showIcon]="true"></p-calendar>
+    <p-calendar id="price-date-input" [showButtonBar]="true" [(ngModel)]="filters.priceDate" (onSelect)="changed('priceDate', $event)" (onClear)="changed('priceDate', undefined)" [showIcon]="true"></p-calendar>
     <label for="price-date-input">On date:</label>
   </span>
   
   <span class="p-float-label  p-mt-5">
-    <p-inputNumber id="engine-value-input" [(ngModel)]="filters.engineValue" (onInput)="changed()"></p-inputNumber> 
-    <label for="engine-value-input">Engine value:</label>
+    <p-inputNumber id="engine-value-input" [(ngModel)]="filters.engineValume" (onInput)="changed('engineValume', $event.value)"></p-inputNumber> 
+    <label for="engine-value-input">Engine volume:</label>
   </span>
 </div>

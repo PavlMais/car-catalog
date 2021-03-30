@@ -1,36 +1,43 @@
-<div class="cars-list">
-  <p-dataView [value]="cars" layout="grid">
+<p-contextMenu #cm [model]="contextItems"></p-contextMenu>
+
+<div class="cars-list" >
+  <p-dataView [value]="cars" [layout]="selectedColumns == 1 ? 'list' : 'grid'">
+
     <ng-template pTemplate="header">
       <div class="p-d-flex p-jc-between p-ai-center">
         <b>Cars: {{cars.length}}</b>
         <div>
-          {{selectedColumns === 1 ? 'list' : 'grid'}}
+          Limit:
+          <p-inputNumber id="limit-input" [(ngModel)]="limit" (onInput)="onLimitChanged($event)" ></p-inputNumber>  
+        </div>
+        <div>
           Columns:
-          <input id="float-input" [(ngModel)]="selectedColumns" type="number" pInputText> 
-
-        </div>
-      </div>
-
-    </ng-template>
-
-    <ng-template let-car pTemplate="listItem">
-      <div>
-        <div class="car-list-item">
-          {{car.description}}
+          <p-inputNumber id="columns-input" [(ngModel)]="selectedColumns" (onInput)="onColumnsChanged($event)"></p-inputNumber> 
         </div>
       </div>
     </ng-template>
 
+    <ng-template let-car pTemplate="listItem">      
+        <div class="p-col-12">
+          <div [routerLink]="['car', car.id]" class="car-list-item item-hover" (contextmenu)="onSelect($event, car)">
+            <div><b>Brand:</b> {{car.brand.name}},</div>
+            <div><b>Model:</b> {{car.model.name}},</div>
+            <div><b>Price:</b> {{car.prices[0].value}},</div>
+            <div><b>Engine:</b> {{car.engineVolume}}</div>
+          </div>
+        </div>
+    </ng-template>
 
     <ng-template let-car pTemplate="gridItem">
       <div [ngClass]="'p-col-12 p-md-' + ( 7 - selectedColumns)">
-        <div class="car-grid-item p-p-1">
+        <div [routerLink]="['car', car.id]" class="car-grid-item item-hover" (contextmenu)="onSelect($event, car)">
           <div><b>Brand:</b> {{car.brand.name}}</div>
           <div><b>Model:</b> {{car.model.name}}</div>
-          <div><b>Price:</b> {{car.price}}</div>
-          <div><b>Description:</b> {{car.description}}</div>
+          <div><b>Price:</b> {{car.prices[0].value}}</div>
+          <div><b>Engine:</b> {{car.engineVolume}}</div>
         </div>
       </div>
     </ng-template>
+
   </p-dataView>
 </div>

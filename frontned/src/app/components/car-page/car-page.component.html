@@ -1,12 +1,17 @@
-<div>
-  <div><b>Brand:</b>{{car.brand.name}}</div>
-  <div><b>Model:</b>{{car.model.name}}</div>
-  <div><b>Color:</b>{{car.color.name}}</div>
-  <div><b>Price:</b>{{car.prices}}</div>
-  <div><b>Description:</b>{{car.description}}</div>
-
-
-
-
-
+<div class="p-d-flex p-m-5" >
+  <div class="info">
+    <button [routerLink]="'/'"> Back</button>
+    <div><b>Brand:</b>{{car.brand.name}}</div>
+    <div><b>Model:</b>{{car.model.name}}</div>
+    <div><b>Color:</b>{{car.color.name}}</div>
+    <div><b>Price:</b>{{car.prices[0].value}}</div>
+    <div><b>Description:</b>{{car.description}}</div>
+    <span class="p-buttonset p-mt-4">
+      <button pButton type="button" label="Edit" (click)="edit()" class="p-button-secondary"></button>    
+      <button pButton type="button" label="Delete" (click)="delete()" class="p-button-danger"></button>
+    </span>
+  </div>
+  <div class="chart">
+    <p-chart type="line" [data]="charData" style="height: 400px"></p-chart>
+  </div>
 </div>

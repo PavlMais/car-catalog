@@ -1,25 +1,23 @@
-<p-dialog  [header]="header" [(visible)]="display">
-  <div class="p-d-flex p-flex-column p-field">
-    <label for="brand-name">Name</label>
-    <input id="brand-name" [formControl]="nameControl" class="{'ng-invalid ng-dirty': nameControl.valid}" pInputText/>
-    <small id="brand-name" [hidden]="nameControl.valid"  class="p-error">Name is required!</small>
-  </div>
+<div class="p-d-flex p-flex-column p-field">
+  <label for="brand-name">Name</label>
+  <input id="brand-name" [formControl]="nameControl" class="{'ng-invalid ng-dirty': nameControl.valid}" pInputText/>
+  <small id="brand-name" [hidden]="nameControl.valid"  class="p-error">Name is required!</small>
+</div>
 
-  <span class="p-float-label p-mt-5">
-    <p-dropdown 
-    appendTo="body"
-    [options]="brands" 
-    [(ngModel)]="selectedBrand" 
-    optionLabel="name"
-    [filter]="true"
-    [autofocusFilter]="true"
-    [autoDisplayFirst]="false"
-    [style]="{'width':'100%'}"
-    ></p-dropdown>
-    <label for="price-from-input">Brand:</label>
-  </span>
+<span class="p-float-label p-mt-5">
+  <p-dropdown 
+  appendTo="body"
+  [options]="brands" 
+  [(ngModel)]="selectedBrand" 
+  optionLabel="name"
+  [filter]="true"
+  [autofocusFilter]="true"
+  [autoDisplayFirst]="false"
+  [style]="{'width':'100%'}"
+  ></p-dropdown>
+  <label for="price-from-input">Brand:</label>
+</span>
 
 <p-footer>
   <p-button (click)="saveBrand()">{{isEditing ? 'Add' : 'Save'}}</p-button>
 </p-footer> 
-</p-dialog>

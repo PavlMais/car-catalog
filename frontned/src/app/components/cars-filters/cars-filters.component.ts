@@ -1,7 +1,8 @@
 import { CarFilter } from './../../core/models/cars_filter';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { Color } from 'src/app/core/models';
-import { ColorService } from 'src/app/core/services/color.service';
+import { ColorInfo } from 'src/app/core/models';
+import { ColorService } from 'src/app/core/services';
+import { CarFiltersService } from 'src/app/core/services/car-filters.service';
 
 @Component({
   selector: 'app-cars-filters',
@@ -10,20 +11,20 @@ import { ColorService } from 'src/app/core/services/color.service';
 })
 export class CarsFiltersComponent implements OnInit {
 
-  colors: Color[] = []
+  colors: ColorInfo[] = []
 
+  filters: CarFilter = {} 
 
-  @Input() filters: CarFilter = {} 
-
-  @Output() filtersChange = new EventEmitter<CarFilter>()
-
-  constructor(private _serviceColor: ColorService) { }
+  constructor(
+    private _serviceColor: ColorService,
+    private _carFiltersService: CarFiltersService) { }
 
   ngOnInit(): void {
     this._serviceColor.getAll().subscribe(c => this.colors = c)
   }
-  changed(){
-    this.filtersChange.emit(this.filters)
+  changed(key: string, value: any){
+
+    this._carFiltersService.updateFilters({[key]: value})
   }
 
 }

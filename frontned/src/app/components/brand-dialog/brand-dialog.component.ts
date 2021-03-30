@@ -1,42 +1,38 @@
-import { DialogService as DialogService } from 'src/app/core/services/dialog.service';
 import { Component, OnInit } from '@angular/core';
-import { BaseDialogComponent as BaseDialogComponent } from '../base-dialog/base-dialog.component';
-import { BrandService } from 'src/app/core/services/brand.service';
+import { BrandService } from 'src/app/core/services';
 import { FormControl, Validators } from '@angular/forms';
-import { Brand } from '../../core/models'
+import { BrandInfo } from '../../core/models'
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+
 @Component({
   selector: 'app-brand-dialog',
   templateUrl: './brand-dialog.component.html',
   styleUrls: ['./brand-dialog.component.scss']
 })
-export class BrandDialogComponent extends BaseDialogComponent {
+export class BrandDialogComponent {
   brandId: number | undefined
   nameControl = new FormControl('', Validators.required);
-  header = "Add brand"
   isEditing = false
 
-  constructor(private _brandService: BrandService,
-    _dialogService: DialogService) {
-    super(_dialogService)
-  }
+  constructor(private _brandService: BrandService, public ref: DynamicDialogRef, public config: DynamicDialogConfig) {
+    let brand = this.config.data?.brand
+    this.config.header = "Add brand"
 
-  onOpen(brand?: Brand, isEditing = false){
-    this.isEditing = isEditing
-    if(isEditing && brand){
+    if(!!brand){
+      this.isEditing = true
       this.brandId = brand.id
       this.nameControl.setValue(brand.name)
-      this.header = "Edit brand"
+      this.config.header = "Edit brand"
     }
   }
   
 
   saveBrand(){
-    console.log("Test: ", this.isEditing, this.brandId)
     if(this.isEditing && this.brandId){
-      this._brandService.update(this.brandId, {name: this.nameControl.value}).subscribe(() => {})
+      this._brandService.update(this.brandId, {name: this.nameControl.value})
     }else{
-      this._brandService.create({name: this.nameControl.value}).subscribe(() => {})
+      this._brandService.create({name: this.nameControl.value})
     }
-    this.display = false
+    this.ref.close()
   }
 }

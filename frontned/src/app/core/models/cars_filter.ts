@@ -1,9 +1,10 @@
-import { Color } from "./color";
-
 export interface CarFilter{
   priceFrom?: number 
   priceTo?: number 
   priceDate?: number 
-  engineValue?: number 
-  color?: Color 
+  engineValume?: number 
+  colorId?: number
+  brandId?: number
+  modelId?: number
+  limit?: number
 }

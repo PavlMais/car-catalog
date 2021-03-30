@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CarService } from './services/car.service';
-import { ApiService } from './services/api.service';
+import { CarService, ApiService } from './services';
 import { SharedModule } from '../common/shared.module';
 
 

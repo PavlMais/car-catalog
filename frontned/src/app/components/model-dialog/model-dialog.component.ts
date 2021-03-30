@@ -1,24 +1,23 @@
-import { Brand, Model } from './../../core/models';
+import { BrandInfo } from './../../core/models';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { ModelService } from 'src/app/core/services/model.service';
-import { DialogService } from 'src/app/core/services/dialog.service';
-import { BaseDialogComponent } from '../base-dialog/base-dialog.component';
-import { BrandService } from 'src/app/core/services/brand.service';
+import { ModelService, BrandService } from 'src/app/core/services';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+
 
 @Component({
   selector: 'app-model-dialog',
   templateUrl: './model-dialog.component.html',
   styleUrls: ['./model-dialog.component.scss']
 })
-export class ModelDialogComponent extends BaseDialogComponent implements OnInit {
+export class ModelDialogComponent {
   modelId: number | undefined
 
   nameControl = new FormControl('', Validators.required);
   header = 'Create model'
   
-  brands: Brand[] = []
-  selectedBrand: Brand | undefined
+  brands: BrandInfo[] = []
+  selectedBrand: BrandInfo | undefined
   
   isEditing = false
 
@@ -26,21 +25,25 @@ export class ModelDialogComponent extends BaseDialogComponent implements OnInit 
   constructor(
     private _modelService: ModelService,
     private _brandService: BrandService,
-    _dialogService: DialogService) {
-    super(_dialogService)
+    public ref: DynamicDialogRef, 
+    public config: DynamicDialogConfig) {
+
+      this.config.header = "Add model"
+
+      let {brand, model} = config.data
+
+      this.selectedBrand = brand
+      this.isEditing = !!brand && !!model
+
+      if(this.isEditing){
+        this.nameControl.setValue(model.name)
+        this.config.header = "Edit model"
+        this.modelId = model.id
+      }
+
   }
   ngOnInit(){
     this._brandService.getAll().subscribe(b => this.brands = b);
-    
-  }
-  onOpen(brand?: Brand, model?: Model, isEditing = false){
-    this.selectedBrand = brand
-    this.isEditing = isEditing
-    if(isEditing && model && brand){
-      this.nameControl.setValue(model.name)
-      this.header = "Edit model"
-      this.modelId = model.id
-    }
   }
 
   saveBrand(){
@@ -51,6 +54,6 @@ export class ModelDialogComponent extends BaseDialogComponent implements OnInit 
     }else{
       this._modelService.create({brandId: this.selectedBrand.id!, name: this.nameControl.value})
     }
-    this.display = false
+    this.ref.close()
   }
 }

@@ -6,7 +6,7 @@ import { CarPageResolverService } from './resolvers/car-page-resolver.service';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'car', component: CarPageComponent, resolve: {car: CarPageResolverService}}
+  { path: 'car/:id', component: CarPageComponent, resolve: {car: CarPageResolverService}}
 ]
 
 

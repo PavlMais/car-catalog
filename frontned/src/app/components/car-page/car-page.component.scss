@@ -1,0 +1,13 @@
+.chart{
+  width: 500px;
+  height: 400px;
+}
+.info{
+  > * {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    > b{
+      margin-right: 5px;
+    }
+  }
+}

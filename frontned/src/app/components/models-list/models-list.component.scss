@@ -1,3 +1,19 @@
+:host {
+  ::ng-deep .p-dataview-header {
+      // background-color: red;
+    padding: 5px; 
+    background-color: white;
+    border-bottom: 1px solid #ccc;
+  }
+  // ::ng-deep .p-dataview {
+  //   // background-color: red;
+  //   padding-left: 5px; 
+  //   padding-right: 5px; 
+  //   background-color: white;
+  //   border-bottom: 1px solid #ccc;
+  // }      
+}
+
 .cars-list{
   padding: 10px;
   margin: 10px;
@@ -7,9 +23,24 @@
 
 
 .car-list-item{
-  border: 1px solid green;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 5px;
+  padding: 5px;
+  display: flex;
+
+  > * {
+    margin-right: 5px;
+  }
+
 }
 .car-grid-item{
-  border: 1px solid orange;
-  // width: 100px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 5px;
+  padding: 5px;
+}
+
+.item-hover:hover{
+  background-color: rgb(240, 240, 240);
 }

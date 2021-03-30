@@ -1,7 +1,10 @@
-import { CarService } from 'src/app/core/services/car.service';
-import { Component, OnInit } from '@angular/core';
-import { Car } from 'src/app/core/models';
-import { ActivatedRoute } from '@angular/router';
+import { DialogService } from 'primeng/dynamicdialog';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
+import { CarService } from 'src/app/core/services';
+import { CarInfo } from 'src/app/core/models';
+import { CarDialogComponent } from '../car-dialog/car-dialog.component';
 
 @Component({
   selector: 'app-car-page',
@@ -10,19 +13,46 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CarPageComponent  {
 
-  car: Car
+  car: CarInfo
+  charData: any
 
-
-  constructor(private _routes: ActivatedRoute) { 
+  constructor(
+    _routes: ActivatedRoute, 
+    private _router: Router,
+    private _dialogService: DialogService,
+    private _carService: CarService,
+    private _confirmService: ConfirmationService) {
+       
     this.car = _routes.snapshot.data.car
-    console.log(this.car)
   }
 
 
-  // ngOnInit(): void {
-  //   this._routes.data.subscribe(({car}) => {
-  //     this.car = car;
-  //   })
-  // }
+  ngOnInit(): void {
+    
+    this.charData = {
+      labels: this.car.prices.map(p => p.createdAt),
+      datasets: [
+        {
+          label: 'Price',
+          data: this.car.prices.map(p => p.value),
+          fill: true,
+          borderColor: '#42A5F5'
+        }
+      ]
+    }
+  }
 
+  edit(){
+    this._dialogService.open(CarDialogComponent, { data: { car: this.car }})
+  }
+
+  delete(){
+    this._confirmService.confirm({
+      message: 'Delete car?',
+      accept: () => {
+          this._carService.delete(this.car.id)
+          this._router.navigateByUrl('/')
+      }
+    });
+  }
 }
