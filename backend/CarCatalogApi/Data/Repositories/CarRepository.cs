@@ -65,14 +65,14 @@ namespace Car_catalog.Data.Repositories
                     Context.Prices
                         .Where(price => price.CarId == car.Id)
                         .Where(price => price.CreatedAt < date)
-                        .OrderBy(price => price.CreatedAt)
+                        .OrderByDescending(price => price.CreatedAt)
                         .First().Value > from.Value )
                     && 
                     (!to.HasValue ||
                     Context.Prices
                         .Where(price => price.CarId == car.Id)
                         .Where(price => price.CreatedAt < date)
-                        .OrderBy(price => price.CreatedAt)
+                        .OrderByDescending(price => price.CreatedAt)
                         .First().Value < to.Value));            
         }
         public IQueryable<Car> GetCarsByPriceCurrent(decimal? from, decimal? to)
@@ -82,13 +82,13 @@ namespace Car_catalog.Data.Repositories
                     (!from.HasValue ||
                      Context.Prices
                          .Where(price => price.CarId == car.Id)
-                         .OrderBy(price => price.CreatedAt)
+                         .OrderByDescending(price => price.CreatedAt)
                          .First().Value > from.Value )
                     && 
                     (!to.HasValue ||
                      Context.Prices
                          .Where(price => price.CarId == car.Id)
-                         .OrderBy(price => price.CreatedAt)
+                         .OrderByDescending(price => price.CreatedAt)
                          .First().Value < to.Value));            
         }
 

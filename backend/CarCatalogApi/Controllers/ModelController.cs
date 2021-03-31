@@ -65,7 +65,7 @@ namespace Car_catalog.Controllers
         }
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit(long id, [FromBody] ModelModel modelmodel)
+        public async Task<IActionResult> Edit(long id, [FromBody] NewModelModel modelmodel)
         {
             var model = _mapper.Map<Model>(modelmodel);
             model.Id = id;

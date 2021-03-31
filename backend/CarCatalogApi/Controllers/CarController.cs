@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -68,9 +69,20 @@ namespace Car_catalog.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(long id, [FromBody] NewCarModel model)
         {
-            var car = _mapper.Map<Car>(model);
-            car.Id = id;
+            var car = await _carRepository.GetById(id);
+
+            car.Description = model.Description;
+            car.BrandId = model.BrandId;
+            car.ColorId = model.ColorId;
+            car.ModelId = model.ModelId;
+            car.EngineVolume = model.EngineVolume;
+
+            if (car.Prices.OrderBy(p => p.CreatedAt).FirstOrDefault()?.Value != model.Price)
+            {
+                car.Prices.Add(new Price(){Value = model.Price, CreatedAt = DateTime.Now});
+            }
             _carRepository.Update(car);
+            
             await _carRepository.Save();
 
             return NoContent();
