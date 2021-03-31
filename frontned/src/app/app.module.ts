@@ -3,6 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms' 
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { ToastModule } from 'primeng/toast';
@@ -21,7 +24,6 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog'
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DialogService } from 'primeng/dynamicdialog';
 
-import { SharedModule } from './common/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
@@ -58,7 +60,7 @@ import { HeaderInterceptor as HeaderInterceptor } from './core/interceptors/head
     CoreModule,
     HttpClientModule,
     DialogModule,
-    SharedModule,
+    ReactiveFormsModule,
     ContextMenuModule,
     ToastModule,
     ButtonModule,
@@ -70,7 +72,12 @@ import { HeaderInterceptor as HeaderInterceptor } from './core/interceptors/head
     InputTextModule,
     ChartModule,
     ConfirmDialogModule,
-    DynamicDialogModule
+    DynamicDialogModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    RouterModule
   ],
   providers: [
     ConfirmationService,
@@ -83,3 +90,6 @@ import { HeaderInterceptor as HeaderInterceptor } from './core/interceptors/head
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
+
