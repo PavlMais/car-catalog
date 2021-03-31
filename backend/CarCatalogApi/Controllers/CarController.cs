@@ -37,7 +37,7 @@ namespace Car_catalog.Controllers
         }
 
         [HttpGet()]
-        public async Task<ActionResult<List<CarPrice>>> GetAll([FromQuery] CarFilters carFilters)
+        public async Task<ActionResult<List<CarModel>>> GetAll([FromQuery] CarFilters carFilters)
         {
             var cars = _mapper.Map<CarModel[]>(_carRepository.GetFiltered(carFilters));
             return new OkObjectResult(cars);
