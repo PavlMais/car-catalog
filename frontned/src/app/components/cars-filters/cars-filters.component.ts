@@ -22,7 +22,10 @@ export class CarsFiltersComponent implements OnInit {
   ngOnInit(): void {
     this._serviceColor.getAll().subscribe(c => this.colors = c)
   }
+  
   changed(key: string, value: any){
+
+    if(key === 'priceDate') value = (value as Date).toJSON();
 
     this._carFiltersService.updateFilters({[key]: value})
   }

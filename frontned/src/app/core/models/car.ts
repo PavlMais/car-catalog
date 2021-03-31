@@ -18,5 +18,6 @@ export interface CarInfo {
   brand: BrandInfo
   model: ModelInfo
   color: ColorInfo
+  price: number
   prices: PriceInfo[]
 }

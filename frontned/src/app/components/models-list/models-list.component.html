@@ -22,7 +22,7 @@
           <div [routerLink]="['car', car.id]" class="car-list-item item-hover" (contextmenu)="onSelect($event, car)">
             <div><b>Brand:</b> {{car.brand.name}},</div>
             <div><b>Model:</b> {{car.model.name}},</div>
-            <div><b>Price:</b> {{car.prices[0].value}},</div>
+            <div><b>Price:</b> {{car.price}},</div>
             <div><b>Engine:</b> {{car.engineVolume}}</div>
           </div>
         </div>
@@ -33,7 +33,7 @@
         <div [routerLink]="['car', car.id]" class="car-grid-item item-hover" (contextmenu)="onSelect($event, car)">
           <div><b>Brand:</b> {{car.brand.name}}</div>
           <div><b>Model:</b> {{car.model.name}}</div>
-          <div><b>Price:</b> {{car.prices[0].value}}</div>
+          <div><b>Price:</b> {{car.price}}</div>
           <div><b>Engine:</b> {{car.engineVolume}}</div>
         </div>
       </div>

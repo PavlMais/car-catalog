@@ -60,6 +60,7 @@ export class ModelsListComponent {
       ];
     }
     onLimitChanged({ value }: any){
+      console.log(this.cars)
       this._carFilterService.setLimit(value)
     }
     onColumnsChanged({ value }: any){

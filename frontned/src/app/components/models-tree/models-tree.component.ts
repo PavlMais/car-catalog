@@ -92,7 +92,24 @@ export class ModelsTreeComponent implements OnInit {
         label: 'Delete',
         icon: 'pi pi-trash', 
         command: (event) => { 
-          this._confirmService.confirm({ message: "Delete brand?" })
+          if(!this.selectedNode || !this.selectedNode.data) return
+          let { brand, model } = this.selectedNode.data
+
+          if(model) 
+            this._confirmService.confirm({ 
+              message: `Delete model '${model.name}'?`, 
+              accept: () => {
+                if(model) this._modelService.delete(model.id)
+              }
+           })
+          else if (brand){
+            this._confirmService.confirm({ 
+              message: `Delete brand '${brand.name}'?`, 
+              accept: () => {
+                if(brand) this._brandService.delete(brand.id)
+              }
+            })
+          }
         } 
       }
     ];
@@ -100,7 +117,7 @@ export class ModelsTreeComponent implements OnInit {
   }
   nodeSelect() {
     if(this.selectedNode?.data?.brand) {
-      var { brand, model } = this.selectedNode.data
+      let { brand, model } = this.selectedNode.data
       this._carFiltersService.setBrandAndModel(brand.id, model?.id);
     } else {
       this._carFiltersService.setBrandAndModel();

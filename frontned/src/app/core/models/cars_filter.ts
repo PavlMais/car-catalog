@@ -1,7 +1,7 @@
 export interface CarFilter{
   priceFrom?: number 
   priceTo?: number 
-  priceDate?: number 
+  priceDate?: Date 
   engineValume?: number 
   colorId?: number
   brandId?: number

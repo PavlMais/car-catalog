@@ -15,7 +15,7 @@ export class CarFiltersService {
 
   constructor(private _carService: CarService) { 
 
-    this.cars = this.filters.pipe(switchMap(f => _carService.getAll(f)))
+    this.cars = this.filters.pipe(debounceTime(500), switchMap(f => _carService.getAll(f)))
   }
 
   update(){

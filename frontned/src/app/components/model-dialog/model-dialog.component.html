@@ -4,7 +4,7 @@
   <small id="brand-name" [hidden]="nameControl.valid"  class="p-error">Name is required!</small>
 </div>
 
-<span class="p-float-label p-mt-5">
+<span class="p-float-label p-my-5">
   <p-dropdown 
   appendTo="body"
   [options]="brands" 
@@ -18,6 +18,4 @@
   <label for="price-from-input">Brand:</label>
 </span>
 
-<p-footer>
-  <p-button (click)="saveBrand()">{{isEditing ? 'Add' : 'Save'}}</p-button>
-</p-footer> 
+<p-button (click)="saveBrand()">{{isEditing ? 'Add' : 'Save'}}</p-button>

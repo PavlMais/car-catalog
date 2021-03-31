@@ -49,7 +49,7 @@ export class CarDialogComponent implements OnInit {
 
     let { brand, model } = this.editingCar
     
-    this.carForm.controls.brandId.setValue(brand.id);
+    this.carForm.controls.brandId.setValue(brand?.id);
     this.carForm.controls.modelId.setValue(model?.id);
 
     if((this.editingCar as CarInfo).id){
