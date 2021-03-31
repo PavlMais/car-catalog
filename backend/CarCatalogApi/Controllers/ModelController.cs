@@ -75,7 +75,7 @@ namespace Car_catalog.Controllers
             return NoContent();
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Edit(long id)
+        public async Task<IActionResult> Delete(long id)
         {
             _modelRepository.DeleteById(id);
             await _modelRepository.Save();

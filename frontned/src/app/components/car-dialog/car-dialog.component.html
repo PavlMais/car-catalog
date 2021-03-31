@@ -30,6 +30,6 @@
       <textarea  id="description-input" formControlName="description" [rows]="8" [cols]="50"  [class]="carForm.controls.description.errors && carForm.touched  ? 'ng-invalid ng-dirty' : ''"></textarea>
       <label for="description-input">Description:</label>
     </span>
-    <p-button type="submit">Save</p-button>
+    <p-button [disabled]="isLoading" type="submit">Save</p-button>
   </form>
 </div>

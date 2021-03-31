@@ -1,7 +1,7 @@
 <div class="p-d-flex p-flex-column p-field">
   <label for="brand-name">Name</label>
-  <input id="brand-name" [formControl]="nameControl" class="{'ng-invalid ng-dirty': nameControl.valid}" pInputText/>
-  <small id="brand-name" [hidden]="nameControl.valid"  class="p-error">Name is required!</small>
+  <input id="brand-name" [formControl]="nameControl" class="{'ng-invalid ng-dirty': nameControl.valid || !nameControl.touched}" pInputText/>
+  <small id="brand-name" [hidden]="nameControl.valid || !nameControl.touched"  class="p-error">Name is required!</small>
 </div>
 
 <span class="p-float-label p-my-5">
@@ -15,7 +15,8 @@
   [autoDisplayFirst]="false"
   [style]="{'width':'100%'}"
   ></p-dropdown>
-  <label for="price-from-input">Brand:</label>
+  <label>Brand:</label>
+
 </span>
 
-<p-button (click)="saveBrand()">{{isEditing ? 'Add' : 'Save'}}</p-button>
+<p-button [disabled]="isLoading" (click)="saveBrand()">{{isEditing ? 'Save' : 'Add'}}</p-button>

@@ -13,6 +13,7 @@ export class BrandDialogComponent {
   brandId: number | undefined
   nameControl = new FormControl('', Validators.required);
   isEditing = false
+  isLoading = false
 
   constructor(private _brandService: BrandService, public ref: DynamicDialogRef, public config: DynamicDialogConfig) {
     let brand = this.config.data?.brand
@@ -28,11 +29,18 @@ export class BrandDialogComponent {
   
 
   saveBrand(){
-    if(this.isEditing && this.brandId){
-      this._brandService.update(this.brandId, {name: this.nameControl.value})
-    }else{
-      this._brandService.create({name: this.nameControl.value})
+    if(!this.nameControl.valid) {
+      this.nameControl.markAllAsTouched()
+      return  
     }
-    this.ref.close()
+    this.isLoading = true
+    let result;
+    if(this.isEditing && this.brandId){
+      result = this._brandService.update(this.brandId, {name: this.nameControl.value})
+    }else{
+      result = this._brandService.create({name: this.nameControl.value})
+    }
+
+    result.subscribe(_ => this.ref.close())
   }
 }

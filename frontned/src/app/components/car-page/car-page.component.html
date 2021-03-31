@@ -4,8 +4,8 @@
     <div><b>Brand:</b>{{car.brand.name}}</div>
     <div><b>Model:</b>{{car.model.name}}</div>
     <div><b>Color:</b>{{car.color.name}}</div>
-    <div><b>Price:</b>{{car.price}}</div>
     <div><b>Engine:</b>{{car.engineVolume}}</div>
+    <div><b>Current price:</b>{{car.price}}</div>
     <div><b>Description:</b>{{car.description}}</div>
     <div class=" p-mt-4">
       <span class="p-buttonset">
@@ -15,6 +15,6 @@
     </div>
   </div>
   <div class="chart">
-    <p-chart type="line" [data]="charData" style="height: 400px"></p-chart>
+    <p-chart type="line" [data]="charData" style="height: 400px" #chart></p-chart>
   </div>
 </div>

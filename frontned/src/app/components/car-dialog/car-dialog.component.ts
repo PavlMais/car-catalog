@@ -26,6 +26,7 @@ export class CarDialogComponent implements OnInit {
   editingCar: CarInfo | {  brand: BrandInfo, model?: ModelInfo } 
  
   isEditing = false
+  isLoading = false
 
   constructor(
     private _modelService: ModelService,
@@ -53,28 +54,33 @@ export class CarDialogComponent implements OnInit {
     this.carForm.controls.modelId.setValue(model?.id);
 
     if((this.editingCar as CarInfo).id){
-      let { color, description, engineVolume, prices } = this.editingCar as CarInfo
+      let { color, description, engineVolume, price } = this.editingCar as CarInfo
 
       this.isEditing = true
       this.carForm.controls.colorId.setValue(color.id)
       
       this.carForm.controls.description.setValue(description)
       this.carForm.controls.engineVolume.setValue(engineVolume)
-      this.carForm.controls.price.setValue(prices[0].value)
+      this.carForm.controls.price.setValue(price)
     } 
   }
   
   saveCar(){
     this.carForm.markAllAsTouched()
     if(this.carForm.invalid) return;
-    let newCar = this.carForm.value as CarNew
+    this.isLoading = true
 
+
+
+    let newCar = this.carForm.value as CarNew
+    let result
     if(this.isEditing){
-      this._carService.update((this.editingCar as CarInfo).id, newCar)
+      result = this._carService.update((this.editingCar as CarInfo).id, newCar)
     }else{
-      this._carService.create(newCar)
+      result = this._carService.create(newCar)
     }
 
-    this.ref.close()
+    result.subscribe(_ => this.ref.close())
+
   }
 }

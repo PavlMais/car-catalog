@@ -1,8 +1,8 @@
 <div class="p-d-flex p-flex-column p-field">
   <label for="brand-name">Username</label>
   <input id="brand-name" [formControl]="nameControl" class="{'ng-invalid ng-dirty': nameControl.valid}" pInputText/>
-  <small id="brand-name" [hidden]="nameControl.valid || !nameControl.touched"  class="p-error">Username is not available.</small>
-  <p-button class="p-mt-4" (click)="saveBrand()" type="submit">{{isEditing ? 'Add' : 'Save'}}</p-button>
+  <small id="brand-name" [hidden]="nameControl.valid || !nameControl.touched"  class="p-error">Name is required.</small>
+  <p-button class="p-mt-4" [disabled]="isLoading" (click)="saveBrand()" type="submit">{{isEditing ? 'Save' : 'Add'}}</p-button>
 </div>
 
 

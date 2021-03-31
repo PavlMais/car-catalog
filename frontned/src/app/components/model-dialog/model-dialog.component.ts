@@ -20,7 +20,7 @@ export class ModelDialogComponent {
   selectedBrand: BrandInfo | undefined
   
   isEditing = false
-
+  isLoading = false
 
   constructor(
     private _modelService: ModelService,
@@ -47,13 +47,19 @@ export class ModelDialogComponent {
   }
 
   saveBrand(){
-    if(!this.selectedBrand) return
-
-    if(this.isEditing && this.modelId){
-      this._modelService.update(this.modelId, {brandId: this.selectedBrand.id!, name: this.nameControl.value})
-    }else{
-      this._modelService.create({brandId: this.selectedBrand.id!, name: this.nameControl.value})
+    if(!this.nameControl.valid || !this.selectedBrand) {
+      this.nameControl.markAllAsTouched()
+      return  
     }
-    this.ref.close()
+    this.isLoading = true
+
+    let result;
+    if(this.isEditing && this.modelId){
+      result = this._modelService.update(this.modelId, {brandId: this.selectedBrand.id!, name: this.nameControl.value})
+    }else{
+      result = this._modelService.create({brandId: this.selectedBrand.id!, name: this.nameControl.value})
+    }
+    
+    result.subscribe(_ => this.ref.close())
   }
 }

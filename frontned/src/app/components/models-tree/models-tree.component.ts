@@ -38,32 +38,38 @@ export class ModelsTreeComponent implements OnInit {
     private _confirmService: ConfirmationService,
     private _carFiltersService: CarFiltersService) { }
 
-  ngOnInit(): void {
+  update(){
+    console.log("update...")
+    this.models = []
     let allBrands = { label: "All brands", data: { brand: undefined, model: undefined}}
 
     this.models.push(allBrands)
     this.selectedNode = allBrands
-
     this._brandService.getAll().pipe(map(d => this.brandsToNodes(d, false)))
       .subscribe(data => this.models.push(...data));
+  }
+
+  ngOnInit(): void {
+    this.update()
 
     this.items = [
       { 
         label: 'Add brand', 
         icon: 'pi pi-plus', 
-        command: () => this._dialogService.open(BrandDialogComponent, {})
+        command: () => this._dialogService.open(BrandDialogComponent, {}).onClose.subscribe(() => this.update())
       },
       { 
         label: 'Add model', 
         icon: 'pi pi-plus', 
-        command: (event) => { 
-          this._dialogService.open(ModelDialogComponent, { data: { brand: this.selectedNode?.data?.brand }})
+        command: () => { 
+          this._dialogService.open(ModelDialogComponent, 
+            { data: { brand: this.selectedNode?.data?.brand }}).onClose.subscribe(() => this.update())
         }
       },
       { 
         label: 'Add car', 
         icon: 'pi pi-plus', 
-        command: (event) => { 
+        command: () => { 
           if(!this.selectedNode || !this.selectedNode.data) return 
 
           let { brand, model } = this.selectedNode.data
@@ -76,22 +82,22 @@ export class ModelsTreeComponent implements OnInit {
       { 
         label: 'Edit', 
         icon: 'pi pi-pencil', 
-        command: (event) => {
+        command: () => {
           if(!this.selectedNode || !this.selectedNode.data) return 
 
           let { brand, model } = this.selectedNode.data
           
           if(!!this.selectedNode?.data?.model){
-            this._dialogService.open(ModelDialogComponent, { data: { brand, model }})
+            this._dialogService.open(ModelDialogComponent, { data: { brand, model }}).onClose.subscribe(() => this.update())
           }else{
-            this._dialogService.open(BrandDialogComponent, { data: { brand } })
+            this._dialogService.open(BrandDialogComponent, { data: { brand } }).onClose.subscribe(() => this.update())
           }
        } 
       },
       { 
         label: 'Delete',
         icon: 'pi pi-trash', 
-        command: (event) => { 
+        command: () => { 
           if(!this.selectedNode || !this.selectedNode.data) return
           let { brand, model } = this.selectedNode.data
 
@@ -99,14 +105,14 @@ export class ModelsTreeComponent implements OnInit {
             this._confirmService.confirm({ 
               message: `Delete model '${model.name}'?`, 
               accept: () => {
-                if(model) this._modelService.delete(model.id)
+                if(model) this._modelService.delete(model.id).subscribe(_ => this.update())
               }
            })
           else if (brand){
             this._confirmService.confirm({ 
               message: `Delete brand '${brand.name}'?`, 
               accept: () => {
-                if(brand) this._brandService.delete(brand.id)
+                if(brand) this._brandService.delete(brand.id).subscribe(_ => this.update())
               }
             })
           }
@@ -121,7 +127,6 @@ export class ModelsTreeComponent implements OnInit {
       this._carFiltersService.setBrandAndModel(brand.id, model?.id);
     } else {
       this._carFiltersService.setBrandAndModel();
-
     }
   }
 

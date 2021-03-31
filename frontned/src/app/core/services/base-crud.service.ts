@@ -28,13 +28,13 @@ export abstract class BaseCrudService<TInfo, TNew> {
   get(url: string, params = {}){
     return this.onProccesOne(this._api.get(`/${this.route}/${url}`, params).pipe((data) => data))
   }
-  delete(id: number) {
-    return this._api.delete(`/${this.route}/${id}`).subscribe()
-  }
   create(item: TNew) {
-    return this._api.post(`/${this.route}`, item).subscribe()
+    return this._api.post(`/${this.route}`, item)
   }
   update(itemId: number, item: TNew){
-    return this._api.put(`/${this.route}/${itemId}`, item).subscribe()
+    return this._api.put(`/${this.route}/${itemId}`, item)
+  }
+  delete(id: number) {
+    return this._api.delete(`/${this.route}/${id}`)    
   }
 }
