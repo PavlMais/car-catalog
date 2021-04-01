@@ -60,42 +60,26 @@ namespace Car_catalog.Data.Repositories
         public IQueryable<Car> GetCarsByPriceDate(DateTime date, decimal? from, decimal? to)
         {
             return GetAll()
-                .Where(car => 
-                    (!from.HasValue ||
-                    Context.Prices
-                        .Where(price => price.CarId == car.Id)
-                        .Where(price => price.CreatedAt < date)
-                        .OrderByDescending(price => price.CreatedAt)
-                        .First().Value > from.Value )
-                    && 
-                    (!to.HasValue ||
-                    Context.Prices
-                        .Where(price => price.CarId == car.Id)
-                        .Where(price => price.CreatedAt < date)
-                        .OrderByDescending(price => price.CreatedAt)
-                        .First().Value < to.Value));            
+                .Where(car => Context.Prices
+                    .Where(price => price.CarId == car.Id)
+                    .Where(price => price.CreatedAt < date)
+                    .OrderByDescending(price => price.CreatedAt)
+                    .Take(1)
+                    .Where(price =>!from.HasValue || price.Value > from.Value)
+                    .Any(price =>!to.HasValue || price.Value < to.Value)
+                );
         }
         public IQueryable<Car> GetCarsByPriceCurrent(decimal? from, decimal? to)
         {
             return GetAll()
-                .Where(car => 
-                    (!from.HasValue ||
-                     Context.Prices
-                         .Where(price => price.CarId == car.Id)
-                         .OrderByDescending(price => price.CreatedAt)
-                         .First().Value > from.Value )
-                    && 
-                    (!to.HasValue ||
-                     Context.Prices
-                         .Where(price => price.CarId == car.Id)
-                         .OrderByDescending(price => price.CreatedAt)
-                         .First().Value < to.Value));            
+                .Where(car => Context.Prices
+                    .Where(price => price.CarId == car.Id)
+                    .OrderByDescending(price => price.CreatedAt)
+                    .Take(1)
+                    .Where(price =>!from.HasValue || price.Value > from.Value)
+                    .Any(price =>!to.HasValue || price.Value < to.Value)
+                );
         }
-
-       
-
-
-       
         public  IQueryable<Car> GetAll()
         {
             return Context.Cars
