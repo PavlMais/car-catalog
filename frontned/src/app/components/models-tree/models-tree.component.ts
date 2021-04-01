@@ -3,12 +3,11 @@ import { map } from 'rxjs/operators';
 import { MenuItem, TreeNode } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { BrandService, ModelService } from 'src/app/core/services';
-import { BrandInfo, ModelInfo } from 'src/app/core/models';
+import { BrandInfo, ModelInfo } from '@models';
 import { BrandDialogComponent } from '../brand-dialog/brand-dialog.component';
 import { ModelDialogComponent } from '../model-dialog/model-dialog.component';
 import { CarDialogComponent } from '../car-dialog/car-dialog.component';
-import { CarFiltersService } from 'src/app/core/services/car-filters.service';
+import { CarFiltersService, BrandService, ModelService } from '@services';
 
 interface NodeData {
   brand?: BrandInfo

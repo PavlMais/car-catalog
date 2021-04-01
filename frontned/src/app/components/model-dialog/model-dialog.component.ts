@@ -1,8 +1,8 @@
-import { BrandInfo } from './../../core/models';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { ModelService, BrandService } from 'src/app/core/services';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ModelService, BrandService } from '@services';
+import { BrandInfo } from '@models';
 
 
 @Component({

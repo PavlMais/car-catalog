@@ -1,11 +1,10 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ContextMenu } from 'primeng/contextmenu';
 import { ConfirmationService, MenuItem } from 'primeng/api';
-import { CarInfo } from 'src/app/core/models';
-import { CarService } from 'src/app/core/services';
 import { CarDialogComponent } from '../car-dialog/car-dialog.component';
-import { CarFiltersService } from 'src/app/core/services/car-filters.service';
+import { CarInfo } from '@models';
+import { CarService, CarFiltersService } from '@services';
 
 
 @Component({

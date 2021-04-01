@@ -1,8 +1,8 @@
-import { ModelInfo, ColorInfo, BrandInfo, CarInfo, CarNew } from './../../core/models';
 import { Component, OnInit } from '@angular/core';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CarService, BrandService, ColorService, ModelService} from 'src/app/core/services'
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ModelInfo, ColorInfo, BrandInfo, CarInfo, CarNew } from '@models';
+import { CarService, BrandService, ColorService, ModelService} from '@services'
 
 @Component({
   selector: 'app-car-dialog',

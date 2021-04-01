@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ColorInfo, ColorNew } from '../models'
+import { ColorInfo, ColorNew } from '@models'
 import { ApiService } from './api.service';
 import { BaseCrudService } from './base-crud.service';
 

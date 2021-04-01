@@ -1,8 +1,6 @@
-import { CarFilter } from './../../core/models/cars_filter';
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { ColorInfo } from 'src/app/core/models';
-import { ColorService } from 'src/app/core/services';
-import { CarFiltersService } from 'src/app/core/services/car-filters.service';
+import { Component, OnInit } from '@angular/core';
+import { ColorInfo, CarFilter } from '@models';
+import { ColorService, CarFiltersService } from '@services';
 
 @Component({
   selector: 'app-cars-filters',

@@ -1,11 +1,11 @@
-import { DialogService } from 'primeng/dynamicdialog';
 import { Component, ViewChild } from '@angular/core';
+import { DialogService } from 'primeng/dynamicdialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
-import { CarService } from 'src/app/core/services';
-import { CarInfo } from 'src/app/core/models';
 import { CarDialogComponent } from '../car-dialog/car-dialog.component';
 import { UIChart } from "primeng/chart/chart";
+import { CarService } from '@services';
+import { CarInfo } from '@models';
 
 @Component({
   selector: 'app-car-page',
