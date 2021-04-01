@@ -3,7 +3,9 @@ import { CarInfo, CarNew, CarFilter, PriceInfo } from '../models';
 import { BaseCrudService } from './base-crud.service';
 import { ApiService } from './api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class CarService extends BaseCrudService<CarInfo, CarNew>  {
 
   constructor(_api: ApiService) {

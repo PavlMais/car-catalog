@@ -5,5 +5,5 @@ export interface ColorNew {
 export interface ColorInfo {
   id: number
   name: string
-  rgb: string
+  rgb: number
 }
