@@ -31,7 +31,6 @@ import { HomeComponent } from './components/home/home.component';
 import { ModelsTreeComponent } from './components/models-tree/models-tree.component';
 import { ModelsListComponent } from './components/models-list/models-list.component';
 import { CarsFiltersComponent } from './components/cars-filters/cars-filters.component';
-import { CarItemComponent } from './components/car-item/car-item.component';
 import { CarDialogComponent } from './components/car-dialog/car-dialog.component';
 import { BrandDialogComponent } from './components/brand-dialog/brand-dialog.component';
 import { ModelDialogComponent } from './components/model-dialog/model-dialog.component';
@@ -45,7 +44,6 @@ import { HeaderInterceptor as HeaderInterceptor } from './core/interceptors/head
     ModelsTreeComponent,
     ModelsListComponent,
     CarsFiltersComponent,
-    CarItemComponent,
     CarDialogComponent,
     BrandDialogComponent,
     ModelDialogComponent,
