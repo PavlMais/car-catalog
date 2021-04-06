@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Car_catalog.Data.Entities;
-using Car_catalog.Data.KeylessEntity;
 using Car_catalog.Models;
-using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileSystemGlobbing.Internal.PathSegments;
 
 namespace Car_catalog.Data.Repositories
 {
@@ -19,27 +15,20 @@ namespace Car_catalog.Data.Repositories
 
     public class CarRepository : RepositoryBase<Car>, ICarRepository
     {
-        public CarRepository(EfContext context) :base(context)
+        public CarRepository(EfContext context) :base(context.Cars, context.SaveChangesAsync)
         {
         }
 
         public new async Task<Car> GetById(long id)
         {
-            return await Context.Cars
-            .Include(c => c.Prices)
-            .Include(c => c.Model)
-            .Include(c => c.Brand)
-            .Include(c => c.Color)
-            .FirstOrDefaultAsync(c => c.Id == id);
+            return await GetAllWithFullInfo().FirstOrDefaultAsync(c => c.Id == id);
         }
-
-       
 
         public IEnumerable<Car> GetFiltered(CarFilters carFilters)
         {
             IQueryable<Car> cars;
             if (!carFilters.PriceFrom.HasValue && !carFilters.PriceTo.HasValue)
-                cars = GetAll();
+                cars = GetAllWithFullInfo();
             else if (carFilters.PriceDate.HasValue)
                 cars = GetCarsByPriceDate(carFilters.PriceDate.Value, carFilters.PriceFrom, carFilters.PriceTo);
             else
@@ -53,15 +42,13 @@ namespace Car_catalog.Data.Repositories
             cars = cars.Where(car => !carFilters.ModelId.HasValue || carFilters.ModelId.Value == car.ModelId);
                                     
             
-
             return carFilters.Limit.HasValue ? cars.Take(carFilters.Limit.Value) : cars;
         }
 
-        public IQueryable<Car> GetCarsByPriceDate(DateTime date, decimal? from, decimal? to)
+        private IQueryable<Car> GetCarsByPriceDate(DateTime date, decimal? from, decimal? to)
         {
-            return GetAll()
-                .Where(car => Context.Prices
-                    .Where(price => price.CarId == car.Id)
+            return GetAllWithFullInfo()
+                .Where(car => car.Prices
                     .Where(price => price.CreatedAt < date)
                     .OrderByDescending(price => price.CreatedAt)
                     .Take(1)
@@ -69,20 +56,20 @@ namespace Car_catalog.Data.Repositories
                     .Any(price =>!to.HasValue || price.Value < to.Value)
                 );
         }
-        public IQueryable<Car> GetCarsByPriceCurrent(decimal? from, decimal? to)
+        
+        private IQueryable<Car> GetCarsByPriceCurrent(decimal? from, decimal? to)
         {
-            return GetAll()
-                .Where(car => Context.Prices
-                    .Where(price => price.CarId == car.Id)
+            return GetAllWithFullInfo()
+                .Where(car => car.Prices
                     .OrderByDescending(price => price.CreatedAt)
                     .Take(1)
                     .Where(price =>!from.HasValue || price.Value > from.Value)
                     .Any(price =>!to.HasValue || price.Value < to.Value)
                 );
         }
-        public  IQueryable<Car> GetAll()
+        private IQueryable<Car> GetAllWithFullInfo()
         {
-            return Context.Cars
+            return Context
                 .Include(c => c.Model)
                 .Include(c => c.Color)
                 .Include(c => c.Brand)

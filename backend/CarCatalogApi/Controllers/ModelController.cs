@@ -6,7 +6,6 @@ using Car_catalog.Data.Entities;
 using Car_catalog.Data.Repositories;
 using Car_catalog.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Car_catalog.Controllers
 {
@@ -32,15 +31,15 @@ namespace Car_catalog.Controllers
         }
 
         [HttpGet()]
-        public async Task<ActionResult<List<ModelModel>>> GetAll(int? brandId = null)
+        public async Task<ActionResult<List<ModelModel>>> GetAll(long? brandId = null)
         {
 
-            List<Model> models;
-            
-            if (brandId != null)
-                models = await _modelRepository.GetAll().Where(q => q.BrandId == brandId).ToListAsync();
+            IEnumerable<Model> models;
+
+            if (brandId.HasValue)
+                models = await _modelRepository.GetByBrandId(brandId.Value);
             else
-                models = await _modelRepository.GetAll().ToListAsync();
+                models = await _modelRepository.GetAll();
                 
             
             return new OkObjectResult(_mapper.Map<List<ModelModel>>(models));
@@ -65,11 +64,13 @@ namespace Car_catalog.Controllers
         }
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit(long id, [FromBody] NewModelModel modelmodel)
+        public async Task<IActionResult> Edit(long id, [FromBody] NewModelModel model)
         {
-            var model = _mapper.Map<Model>(modelmodel);
-            model.Id = id;
-            _modelRepository.Update(model);
+          
+            var currentModel = await _modelRepository.GetById(id);
+            
+            _mapper.Map(model, currentModel);
+            _modelRepository.Update(currentModel);
             await _modelRepository.Save();
 
             return NoContent();

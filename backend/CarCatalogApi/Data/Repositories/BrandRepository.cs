@@ -10,7 +10,7 @@ namespace Car_catalog.Data.Repositories
 
     public class BrandRepository : RepositoryBase<Brand>, IBrandRepository
     {
-        public BrandRepository(EfContext context) :base(context)
+        public BrandRepository(EfContext context) :base(context.Brands, context.SaveChangesAsync)
         {
         }
         

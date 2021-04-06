@@ -1,47 +1,45 @@
 ﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Car_catalog.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Car_catalog.Data.Repositories
 {
-
+    
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : BaseEntity
     {
-        protected EfContext Context { get; set; }
-        public RepositoryBase(EfContext context)
+        protected DbSet<T> Context { get; set; }
+        private Func<CancellationToken, Task<int>> _onSave;
+        protected RepositoryBase(DbSet<T> context, Func<CancellationToken, Task<int>> onSave)
         {
             Context = context;
+            _onSave = onSave;
         }
-        public IQueryable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
-            return Context.Set<T>();
+            return await Context.ToListAsync();
         }
         
         public async Task<T> GetById(long id)
         {
-            return await Context.Set<T>().FindAsync(id);
-        }
-        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
-        {
-            return Context.Set<T>().Where(expression);
+            return await Context.FindAsync(id);
         }
         public void Add(T entity)
         {
             entity.UpdatedAt = DateTime.Now;
             entity.CreatedAt = DateTime.Now;
-            Context.Set<T>().Add(entity);
+            Context.Add(entity);
         }
         public void Update(T entity)
         {
             entity.UpdatedAt = DateTime.Now;
-            Context.Set<T>().Update(entity);
+            Context.Update(entity);
         }
         public void Delete(T entity)
         {
-            Context.Set<T>().Remove(entity);
+            Context.Remove(entity);
         }
         public void DeleteById(long id)
         {
@@ -50,12 +48,12 @@ namespace Car_catalog.Data.Repositories
 
         public async Task<bool> AnyById(int id)
         {
-            return Context.Set<T>().Any(e => e.Id == id);
+            return await Context.AnyAsync(e => e.Id == id);
         }
 
         public async Task Save()
         {
-            await Context.SaveChangesAsync();
+            await _onSave.Invoke(new CancellationToken());
         }
     }
 }

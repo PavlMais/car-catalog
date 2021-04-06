@@ -44,7 +44,7 @@ namespace Car_catalog.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] BrandModel model)
+        public async Task<IActionResult> Add([FromBody] NewBrandModel model)
         {
             var brand = _mapper.Map<Brand>(model);
             _brandRepository.Add(brand);
@@ -54,10 +54,11 @@ namespace Car_catalog.Controllers
         }
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit(long id, [FromBody] BrandModel model)
+        public async Task<IActionResult> Edit(long id, [FromBody] NewBrandModel model)
         {
-            var brand = _mapper.Map<Brand>(model);
-            brand.Id = id;
+            var brand = await _brandRepository.GetById(id);
+            
+            _mapper.Map(brand, model);
             _brandRepository.Update(brand);
             await _brandRepository.Save();
             

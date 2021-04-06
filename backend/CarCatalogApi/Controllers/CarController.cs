@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Car_catalog.Data.Entities;
-using Car_catalog.Data.KeylessEntity;
 using Car_catalog.Data.Repositories;
 using Car_catalog.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -70,14 +69,11 @@ namespace Car_catalog.Controllers
         public async Task<IActionResult> Edit(long id, [FromBody] NewCarModel model)
         {
             var car = await _carRepository.GetById(id);
+            _mapper.Map(model, car);
 
-            car.Description = model.Description;
-            car.BrandId = model.BrandId;
-            car.ColorId = model.ColorId;
-            car.ModelId = model.ModelId;
-            car.EngineVolume = model.EngineVolume;
+            var currentPrice = car.Prices.OrderBy(p => p.CreatedAt).First().Value;
 
-            if (car.Prices.OrderBy(p => p.CreatedAt).FirstOrDefault()?.Value != model.Price)
+            if (currentPrice != model.Price)
             {
                 car.Prices.Add(new Price(){Value = model.Price, CreatedAt = DateTime.Now});
             }

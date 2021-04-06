@@ -10,7 +10,7 @@ namespace Car_catalog.Data.Repositories
 
     public class ColorRepository : RepositoryBase<Color>, IColorRepository
     {
-        public ColorRepository(EfContext context) :base(context)
+        public ColorRepository(EfContext context) :base(context.Colors, context.SaveChangesAsync)
         {
         }
     }

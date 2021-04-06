@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Car_catalog.Data.Entities;
@@ -46,9 +45,7 @@ namespace Car_catalog.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] NewColorModel colorModel)
         {
-            Console.WriteLine(colorModel.Name);
             var color = _mapper.Map<Color>(colorModel);
-            Console.WriteLine(color.Name);
             _colorRepository.Add(color);
             await _colorRepository.Save();
 
@@ -56,10 +53,11 @@ namespace Car_catalog.Controllers
         }
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit(long id, [FromBody] NewColorModel colorModel)
+        public async Task<IActionResult> Edit(long id, [FromBody] NewColorModel model)
         {
-            var color = _mapper.Map<Color>(colorModel);
-            color.Id = id;
+            var color = await _colorRepository.GetById(id);
+            
+            _mapper.Map(color, model);
             _colorRepository.Update(color);
             await _colorRepository.Save();
 
