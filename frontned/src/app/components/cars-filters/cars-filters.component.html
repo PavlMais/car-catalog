@@ -20,12 +20,12 @@
   <span class="p-float-label p-mt-5">
     <p-inputNumber id="price-from-input" [(ngModel)]="filters.priceFrom" (onInput)="changed('priceFrom', $event.value)"></p-inputNumber> 
 
-    <label for="price-from-input">From:</label>
+    <label for="price-from-input">Price from:</label>
   </span>
   <span class="p-float-label  p-mt-5">
     <p-inputNumber id="price-to-input" [(ngModel)]="filters.priceTo" (onInput)="changed('priceTo', $event.value)"></p-inputNumber> 
 
-    <label for="price-to-input">To:</label>
+    <label for="price-to-input">Price to:</label>
   </span>
   <span class="p-float-label  p-mt-5">
     <p-calendar id="price-date-input" [showButtonBar]="true" dataType="date" [ngModel]="filters.priceDate" (onSelect)="changed('priceDate', $event)" [showIcon]="true"></p-calendar>
