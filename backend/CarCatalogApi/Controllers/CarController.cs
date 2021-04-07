@@ -45,7 +45,7 @@ namespace Car_catalog.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<List<CarModel>>> GetById(long id)
         {
-            var eCar = await _carRepository.GetByIdAsync(id);
+            var eCar = await _carRepository.GetFullByIdAsync(id);
             
             var car = _mapper.Map<CarModel>(eCar);
             

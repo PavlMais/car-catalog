@@ -11,6 +11,7 @@ namespace Car_catalog.Data.Repositories
     public interface ICarRepository : IRepositoryBase<Car>
     {
         public IEnumerable<Car> GetFiltered(CarFilters carFilters);
+        public Task<Car> GetFullByIdAsync(long id);
     }
 
     public class CarRepository : RepositoryBase<Car>, ICarRepository
@@ -19,7 +20,7 @@ namespace Car_catalog.Data.Repositories
         {
         }
 
-        public new async Task<Car> GetById(long id)
+        public async Task<Car> GetFullByIdAsync(long id)
         {
             return await GetAllWithFullInfo().FirstOrDefaultAsync(c => c.Id == id);
         }
