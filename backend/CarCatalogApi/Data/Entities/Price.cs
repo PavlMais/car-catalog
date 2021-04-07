@@ -6,7 +6,8 @@ namespace Car_catalog.Data.Entities
     public class Price : BaseEntity
     {
         public decimal Value { get; set; }
-        
+
+        public long CarId { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 }

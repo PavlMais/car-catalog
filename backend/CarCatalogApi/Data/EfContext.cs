@@ -1,10 +1,7 @@
-﻿using System;
-using System.Threading;
-using Car_catalog.Data.Entities;
+﻿using Car_catalog.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
-using Microsoft.Extensions.Options;
+
 
 namespace Car_catalog.Data
 {
@@ -20,6 +17,10 @@ namespace Car_catalog.Data
             base.OnConfiguring(optionsBuilder);
 
             optionsBuilder.UseLoggerFactory(_loggerFactory);
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            DatabaseInitializer.Seed(modelBuilder);
         }
 
         public virtual DbSet<Car> Cars { get; set; }

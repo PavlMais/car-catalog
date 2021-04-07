@@ -46,8 +46,10 @@ namespace Car_catalog
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, EfContext ctx)
         {
+            ctx.Database.EnsureCreated();   
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
