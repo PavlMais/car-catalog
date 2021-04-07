@@ -69,7 +69,10 @@ namespace Car_catalog.Data.Repositories
         }
         private IQueryable<Car> GetAllWithFullInfo()
         {
-            var cars = Context.Include(c => c.Model)
+            var cars = Context
+                .Include(c => c.Color)
+                .Include(c => c.Prices)
+                .Include(c => c.Model)
                 .ThenInclude(c => c.Brand);
 
             return cars;
