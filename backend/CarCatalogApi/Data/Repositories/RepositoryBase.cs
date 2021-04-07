@@ -17,24 +17,21 @@ namespace Car_catalog.Data.Repositories
             Context = context;
             _onSave = onSave;
         }
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await Context.ToListAsync();
         }
         
-        public async Task<T> GetById(long id)
+        public async Task<T> GetByIdAsync(long id)
         {
             return await Context.FindAsync(id);
         }
         public void Add(T entity)
         {
-            entity.UpdatedAt = DateTime.Now;
-            entity.CreatedAt = DateTime.Now;
             Context.Add(entity);
         }
         public void Update(T entity)
         {
-            entity.UpdatedAt = DateTime.Now;
             Context.Update(entity);
         }
         public void Delete(T entity)
@@ -43,15 +40,15 @@ namespace Car_catalog.Data.Repositories
         }
         public void DeleteById(long id)
         {
-            Delete(GetById(id).Result);
+            Delete(GetByIdAsync(id).Result);
         }
 
-        public async Task<bool> AnyById(int id)
+        public async Task<bool> AnyByIdAsync(int id)
         {
             return await Context.AnyAsync(e => e.Id == id);
         }
 
-        public async Task Save()
+        public async Task SaveAsync()
         {
             await _onSave.Invoke(new CancellationToken());
         }

@@ -20,7 +20,6 @@ namespace Car_catalog.Controllers
         {
             _modelRepository = modelRepository;
             
-            
             var config = new MapperConfiguration(
                 cfg =>
                 {
@@ -33,13 +32,12 @@ namespace Car_catalog.Controllers
         [HttpGet()]
         public async Task<ActionResult<List<ModelModel>>> GetAll(long? brandId = null)
         {
-
             IEnumerable<Model> models;
 
             if (brandId.HasValue)
                 models = await _modelRepository.GetByBrandId(brandId.Value);
             else
-                models = await _modelRepository.GetAll();
+                models = await _modelRepository.GetAllAsync();
                 
             
             return new OkObjectResult(_mapper.Map<List<ModelModel>>(models));
@@ -48,7 +46,7 @@ namespace Car_catalog.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<List<ModelModel>>> GetById(long id)
         {
-            var model = _mapper.Map<ModelModel>(await _modelRepository.GetById(id));
+            var model = _mapper.Map<ModelModel>(await _modelRepository.GetByIdAsync(id));
             return new OkObjectResult(model);
         }
 
@@ -57,8 +55,7 @@ namespace Car_catalog.Controllers
         {
             var model = _mapper.Map<Model>(modelmodel);
             _modelRepository.Add(model);
-            await _modelRepository.Save();
-
+            await _modelRepository.SaveAsync();
 
             return CreatedAtAction(nameof(GetById), new {id = model.Id}, model);
         }
@@ -67,11 +64,11 @@ namespace Car_catalog.Controllers
         public async Task<IActionResult> Edit(long id, [FromBody] NewModelModel model)
         {
           
-            var currentModel = await _modelRepository.GetById(id);
+            var currentModel = await _modelRepository.GetByIdAsync(id);
             
             _mapper.Map(model, currentModel);
             _modelRepository.Update(currentModel);
-            await _modelRepository.Save();
+            await _modelRepository.SaveAsync();
 
             return NoContent();
         }
@@ -79,10 +76,9 @@ namespace Car_catalog.Controllers
         public async Task<IActionResult> Delete(long id)
         {
             _modelRepository.DeleteById(id);
-            await _modelRepository.Save();
+            await _modelRepository.SaveAsync();
 
             return NoContent();
         }
     }
-
 }

@@ -38,7 +38,7 @@ namespace Car_catalog.Data.Repositories
             cars = cars.Where(car =>
                 !carFilters.EngineValume.HasValue || carFilters.EngineValume.Value == car.EngineVolume);
             cars = cars.Where(car => !carFilters.ColorId.HasValue || carFilters.ColorId.Value == car.ColorId);
-            cars = cars.Where(car => !carFilters.BrandId.HasValue || carFilters.BrandId.Value == car.BrandId);
+            cars = cars.Where(car => !carFilters.BrandId.HasValue || carFilters.BrandId.Value == car.Model.BrandId);
             cars = cars.Where(car => !carFilters.ModelId.HasValue || carFilters.ModelId.Value == car.ModelId);
                                     
             
@@ -69,11 +69,10 @@ namespace Car_catalog.Data.Repositories
         }
         private IQueryable<Car> GetAllWithFullInfo()
         {
-            return Context
-                .Include(c => c.Model)
-                .Include(c => c.Color)
-                .Include(c => c.Brand)
-                .Include(c => c.Prices);
+            var cars = Context.Include(c => c.Model)
+                .ThenInclude(c => c.Brand);
+
+            return cars;
         }
     }
 }

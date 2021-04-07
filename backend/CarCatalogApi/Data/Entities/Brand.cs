@@ -7,6 +7,5 @@ namespace Car_catalog.Data.Entities
         public string Name { get; set; }
 
         public virtual ICollection<Model> Models { get; set; }
-        public virtual ICollection<Car> Cars { get; set; }
     }
 }

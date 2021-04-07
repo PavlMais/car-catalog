@@ -11,16 +11,10 @@ namespace Car_catalog.Data.Entities
         public string Description { get; set; }
         [Required]
         public double EngineVolume { get; set; }
-        
-        public long BrandId { get; set; }
         public long ModelId { get; set; }
         public long ColorId { get; set; }
-
-        [JsonIgnore]
-        public virtual Brand Brand { get; set; }
-        [JsonIgnore]
+        
         public virtual Model Model { get; set; }
-        [JsonIgnore]
         public virtual Color Color { get; set; }
         public ICollection<Price> Prices { get; set; }
 

@@ -31,14 +31,14 @@ namespace Car_catalog.Controllers
         [HttpGet()]
         public async Task<ActionResult<List<ColorModel>>> GetAll()
         {
-            var colors = _mapper.Map<List<ColorModel>>(_colorRepository.GetAll());
+            var colors = _mapper.Map<List<ColorModel>>(await _colorRepository.GetAllAsync());
             return new OkObjectResult(colors);
         }
         
         [HttpGet("{id}")]
         public async Task<ActionResult<List<ColorModel>>> GetById(long id)
         {
-            var color = _mapper.Map<ColorModel>(await _colorRepository.GetById(id));
+            var color = _mapper.Map<ColorModel>(await _colorRepository.GetByIdAsync(id));
             return new OkObjectResult(color);
         }
 
@@ -47,7 +47,7 @@ namespace Car_catalog.Controllers
         {
             var color = _mapper.Map<Color>(colorModel);
             _colorRepository.Add(color);
-            await _colorRepository.Save();
+            await _colorRepository.SaveAsync();
 
             return CreatedAtAction(nameof(GetById), new {id = color.Id}, color);
         }
@@ -55,11 +55,11 @@ namespace Car_catalog.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(long id, [FromBody] NewColorModel model)
         {
-            var color = await _colorRepository.GetById(id);
+            var color = await _colorRepository.GetByIdAsync(id);
             
             _mapper.Map(color, model);
             _colorRepository.Update(color);
-            await _colorRepository.Save();
+            await _colorRepository.SaveAsync();
 
             return NoContent();
         }
@@ -67,7 +67,7 @@ namespace Car_catalog.Controllers
         public async Task<IActionResult> Delete(long id)
         {
             _colorRepository.DeleteById(id);
-            await _colorRepository.Save();
+            await _colorRepository.SaveAsync();
 
             return NoContent();
         }

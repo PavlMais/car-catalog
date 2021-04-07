@@ -26,14 +26,8 @@ namespace Car_catalog.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -47,14 +41,8 @@ namespace Car_catalog.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("BrandId")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("ColorId")
                         .HasColumnType("bigint");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -65,12 +53,7 @@ namespace Car_catalog.Migrations
                     b.Property<long>("ModelId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("BrandId");
 
                     b.HasIndex("ColorId");
 
@@ -86,17 +69,11 @@ namespace Car_catalog.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Rgb")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -110,24 +87,15 @@ namespace Car_catalog.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BrandId")
-                        .HasColumnType("int");
-
-                    b.Property<long?>("BrandId1")
+                    b.Property<long>("BrandId")
                         .HasColumnType("bigint");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("BrandId1");
+                    b.HasIndex("BrandId");
 
                     b.ToTable("Models");
                 });
@@ -139,13 +107,10 @@ namespace Car_catalog.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("CarId")
+                    b.Property<long?>("CarId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("Value")
@@ -160,12 +125,6 @@ namespace Car_catalog.Migrations
 
             modelBuilder.Entity("Car_catalog.Data.Entities.Car", b =>
                 {
-                    b.HasOne("Car_catalog.Data.Entities.Brand", "Brand")
-                        .WithMany("Cars")
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Car_catalog.Data.Entities.Color", "Color")
                         .WithMany()
                         .HasForeignKey("ColorId")
@@ -178,8 +137,6 @@ namespace Car_catalog.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Brand");
-
                     b.Navigation("Color");
 
                     b.Navigation("Model");
@@ -189,26 +146,22 @@ namespace Car_catalog.Migrations
                 {
                     b.HasOne("Car_catalog.Data.Entities.Brand", "Brand")
                         .WithMany("Models")
-                        .HasForeignKey("BrandId1");
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Brand");
                 });
 
             modelBuilder.Entity("Car_catalog.Data.Entities.Price", b =>
                 {
-                    b.HasOne("Car_catalog.Data.Entities.Car", "Car")
+                    b.HasOne("Car_catalog.Data.Entities.Car", null)
                         .WithMany("Prices")
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Car");
+                        .HasForeignKey("CarId");
                 });
 
             modelBuilder.Entity("Car_catalog.Data.Entities.Brand", b =>
                 {
-                    b.Navigation("Cars");
-
                     b.Navigation("Models");
                 });
 

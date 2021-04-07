@@ -9,13 +9,13 @@ namespace Car_catalog.Data.Repositories
 {
     public interface IRepositoryBase<T> where T : BaseEntity
     {
-        Task<IEnumerable<T>> GetAll();
-        Task<T> GetById(long id);
+        Task<IEnumerable<T>> GetAllAsync();
+        Task<T> GetByIdAsync(long id);
         void Add(T entity);
         void Update(T entity);
         void Delete(T entity);
         void DeleteById(long id);
-        Task<bool> AnyById(int id);
-        Task Save();
+        Task<bool> AnyByIdAsync(int id);
+        Task SaveAsync();
     }
 }

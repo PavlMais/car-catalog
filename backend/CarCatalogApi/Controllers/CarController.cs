@@ -45,7 +45,7 @@ namespace Car_catalog.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<List<CarModel>>> GetById(long id)
         {
-            var eCar = await _carRepository.GetById(id);
+            var eCar = await _carRepository.GetByIdAsync(id);
             
             var car = _mapper.Map<CarModel>(eCar);
             
@@ -60,7 +60,7 @@ namespace Car_catalog.Controllers
             _carRepository.Add(car);
             car.Prices.Add(new Price(){Value = model.Price});
             
-            await _carRepository.Save();
+            await _carRepository.SaveAsync();
             
             return CreatedAtAction(nameof(GetById), new {id = car.Id}, car);
         }
@@ -68,7 +68,7 @@ namespace Car_catalog.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(long id, [FromBody] NewCarModel model)
         {
-            var car = await _carRepository.GetById(id);
+            var car = await _carRepository.GetByIdAsync(id);
             _mapper.Map(model, car);
 
             var currentPrice = car.Prices.OrderBy(p => p.CreatedAt).First().Value;
@@ -79,7 +79,7 @@ namespace Car_catalog.Controllers
             }
             _carRepository.Update(car);
             
-            await _carRepository.Save();
+            await _carRepository.SaveAsync();
 
             return NoContent();
         }
@@ -87,7 +87,7 @@ namespace Car_catalog.Controllers
         public async Task<IActionResult> Delete(long id)
         {
             _carRepository.DeleteById(id);
-            await _carRepository.Save();
+            await _carRepository.SaveAsync();
 
             return NoContent();
         }

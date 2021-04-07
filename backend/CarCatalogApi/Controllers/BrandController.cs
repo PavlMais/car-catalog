@@ -32,14 +32,14 @@ namespace Car_catalog.Controllers
         [HttpGet()]
         public async Task<IActionResult> GetAll()
         {
-            var brands = _mapper.Map<List<BrandModel>>(_brandRepository.GetAll());
+            var brands = _mapper.Map<List<BrandModel>>(await _brandRepository.GetAllAsync());
             return new OkObjectResult(brands);
         }
         
         [HttpGet("{id}")]
         public async Task<ActionResult<List<BrandModel>>> GetById(long id)
         {
-            var brand = _mapper.Map<BrandModel>(await _brandRepository.GetById(id));
+            var brand = _mapper.Map<BrandModel>(await _brandRepository.GetByIdAsync(id));
             return new OkObjectResult(brand);
         }
 
@@ -48,7 +48,7 @@ namespace Car_catalog.Controllers
         {
             var brand = _mapper.Map<Brand>(model);
             _brandRepository.Add(brand);
-            await _brandRepository.Save();
+            await _brandRepository.SaveAsync();
 
             return CreatedAtAction(nameof(GetById), new {id = brand.Id}, brand);
         }
@@ -56,11 +56,11 @@ namespace Car_catalog.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(long id, [FromBody] NewBrandModel model)
         {
-            var brand = await _brandRepository.GetById(id);
+            var brand = await _brandRepository.GetByIdAsync(id);
             
             _mapper.Map(brand, model);
             _brandRepository.Update(brand);
-            await _brandRepository.Save();
+            await _brandRepository.SaveAsync();
             
             return NoContent();
         }
@@ -68,7 +68,7 @@ namespace Car_catalog.Controllers
         public async Task<IActionResult> Delete(long id)
         {
             _brandRepository.DeleteById(id);
-            await _brandRepository.Save();
+            await _brandRepository.SaveAsync();
 
             return NoContent();
         }
