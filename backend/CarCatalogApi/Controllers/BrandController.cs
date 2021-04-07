@@ -23,7 +23,7 @@ namespace Car_catalog.Controllers
                 cfg =>
                 {
                     cfg.CreateMap<Brand, BrandModel>();
-                    cfg.CreateMap<BrandModel, Brand>();
+                    cfg.CreateMap<NewBrandModel, Brand>();
                 });
             _mapper = new Mapper(config);
         }
