@@ -1,7 +1,7 @@
 <div class="p-d-flex p-m-5" >
   <div class="info">
     <p-button styleClass="p-mb-3" [routerLink]="'/'" label="Back" ></p-button>
-    <div><b>Brand:</b>{{car.brand.name}}</div>
+    <div><b>Brand:</b>{{car.model.brand.name}}</div>
     <div><b>Model:</b>{{car.model.name}}</div>
     <div><b>Color:</b>{{car.color.name}}</div>
     <div><b>Engine:</b>{{car.engineVolume}}</div>
@@ -14,7 +14,7 @@
       </span>
     </div>
   </div>
-  <div class="chart">
+  <!-- <div class="chart">
     <p-chart type="line" [data]="charData" style="height: 400px" #chart></p-chart>
-  </div>
+  </div> -->
 </div>

@@ -14,13 +14,13 @@ export class CarService extends BaseCrudService<CarInfo, CarNew>  {
 
   convert(data: any): CarInfo {
     let prices = data.prices.map((p: any) => 
-      ({...p, createdAt: new Date(p.createdAt).toLocaleDateString('en-US')})) as PriceInfo[]
+      ({...p, createdAt: new Date(p.createdAt).toLocaleDateString('ru')})) as PriceInfo[]
 
     let car: CarInfo = {
       id: data.id,
-      brand: data.brand,
       color: data.color,
       model: data.model,
+      brand: data.model.brand,
       description: data.description,
       engineVolume: data.engineVolume,
       prices: [...prices].sort((a, b) => a.id - b.id),

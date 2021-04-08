@@ -23,7 +23,6 @@ export class CarFiltersService {
   }
 
   setBrandAndModel(brandId?: number, modelId?: number){
-    console.log('set to ', brandId, modelId)
     this.filters.next(Object.assign(this.cache_filters, { modelId: modelId, brandId: brandId }))
   }
 
