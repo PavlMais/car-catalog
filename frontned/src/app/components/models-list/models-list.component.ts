@@ -17,6 +17,8 @@ export class ModelsListComponent {
   @ViewChild("cm") cm: ContextMenu | undefined;
 
   cars: CarInfo[] = []
+  totalCount = 0
+
 
   selectedCar: CarInfo | undefined
 
@@ -32,8 +34,14 @@ export class ModelsListComponent {
     private _confirmService: ConfirmationService,
     private _carFilterService: CarFiltersService) { 
 
-      _carFilterService.cars.subscribe(cars => this.cars = cars)
-      _carFilterService.filters.next({}) // TODO:
+      _carFilterService.cars.subscribe(({ items, totalCount }) => {
+        this.cars = items
+        this.totalCount = totalCount
+      })
+    }
+
+    pageChange(event: any){
+      this._carFilterService.setPage(event.page)
     }
     
     

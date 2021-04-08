@@ -25,6 +25,7 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MenuModule } from 'primeng/menu';
 import { CardModule } from 'primeng/card';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 
@@ -72,6 +73,7 @@ import { HeaderInterceptor as HeaderInterceptor } from './core/interceptors/head
     DataViewModule,
     DropdownModule,
     InputNumberModule,
+    PaginatorModule,
     CalendarModule,
     InputTextModule,
     ChartModule,

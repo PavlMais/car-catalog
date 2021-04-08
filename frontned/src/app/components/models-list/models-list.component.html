@@ -40,4 +40,5 @@
     </ng-template>
 
   </p-dataView>
+  <p-paginator [rows]="limit" [totalRecords]="totalCount" (onPageChange)="pageChange($event)"></p-paginator>
 </div>

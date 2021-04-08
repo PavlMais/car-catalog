@@ -1,26 +1,25 @@
-import { CarInfo, CarFilter } from 'src/app/core/models';
+import { CarInfo, CarFilter } from '@models';
 import { Observable, Subject, Observer, BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { CarService } from './car.service';
 import { debounceTime, distinctUntilChanged, switchMap, map, tap } from 'rxjs/operators';
+import { PaginatedResult, CarService } from '@services';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarFiltersService {
 
-  cars = new Observable<CarInfo[]>();
+  cars = new Observable<PaginatedResult<CarInfo>>();
   oldestPrice = new BehaviorSubject<Date>(new Date());
-  filters = new Subject<CarFilter>()
-  cache_filters: CarFilter = {}
+  filters = new BehaviorSubject<CarFilter>({})
 
   constructor(private _carService: CarService) { 
 
     this.cars = this.filters
       .pipe(
         debounceTime(500), 
-        switchMap(f => _carService.getAll(f)),
-        tap(cars => this.updateDateRange(cars)))
+        switchMap(f => _carService.getPaginated(f)),
+        tap(res => this.updateDateRange(res.items)))
 
 
   }
@@ -29,23 +28,27 @@ export class CarFiltersService {
 
     let sorted = allDates.sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
 
-
     this.oldestPrice.next(new Date(sorted[0]))
   }
 
-
-  update(){
-    this.filters.next(this.cache_filters)
+  setPage(page: number){
+    let limit = this.filters.value.limit || 10
+    this.update({offset: page * limit})
   }
+ 
 
   setBrandAndModel(brandId?: number, modelId?: number){
-    this.filters.next(Object.assign(this.cache_filters, { modelId: modelId, brandId: brandId }))
+    this.update({ modelId, brandId })
   }
 
   updateFilters(filters: CarFilter){
-    this.filters.next(Object.assign(this.cache_filters, filters))
+    this.update(filters)
   }
+
   setLimit(limit: number){
-    this.filters.next(Object.assign(this.cache_filters, {limit}))
+    this.update({ limit })
+  }
+  update(params: any = {}){
+    this.filters.next(Object.assign(this.filters.value, params))
   }
 }

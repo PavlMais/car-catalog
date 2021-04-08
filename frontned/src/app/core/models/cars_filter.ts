@@ -7,4 +7,5 @@ export interface CarFilter{
   brandId?: number
   modelId?: number
   limit?: number
+  offset?: number
 }
