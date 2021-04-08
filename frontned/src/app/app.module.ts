@@ -23,6 +23,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { ConfirmDialogModule } from 'primeng/confirmdialog'
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DialogService } from 'primeng/dynamicdialog';
+import { MenuModule } from 'primeng/menu';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
@@ -56,6 +58,7 @@ import { HeaderInterceptor as HeaderInterceptor } from './core/interceptors/head
     AccordionModule,
     TreeModule,
     CoreModule,
+    MenuModule,
     HttpClientModule,
     DialogModule,
     ReactiveFormsModule,

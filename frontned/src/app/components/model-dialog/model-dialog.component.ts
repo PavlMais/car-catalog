@@ -30,7 +30,7 @@ export class ModelDialogComponent {
 
       this.config.header = "Add model"
 
-      let {brand, model} = config.data
+      let {brand, model} = config.data || {}
 
       this.selectedBrand = brand
       this.isEditing = !!brand && !!model

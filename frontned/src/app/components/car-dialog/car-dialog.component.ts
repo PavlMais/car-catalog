@@ -35,7 +35,7 @@ export class CarDialogComponent implements OnInit {
     private _carService: CarService, 
     public ref: DynamicDialogRef, 
     public config: DynamicDialogConfig) {
-      this.editingCar = config.data.car
+      this.editingCar = config.data?.car || {}
     
       this.config.header = this.editingCar ? "Edit car" : "Add car"
   }

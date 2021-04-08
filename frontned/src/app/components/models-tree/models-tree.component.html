@@ -1,3 +1,11 @@
+<div class="p-d-flex p-flex-column p-jc-center p-m-1">
+
+  <p-menu #menu [popup]="true" [model]="menuItems"></p-menu>
+  <button pButton icon="pi pi-plus" label="Add item" class="p-button-sm"(click)="menu.toggle($event)"></button>
+  <button pButton icon="pi pi-pencil" label="Edit item" [disabled]="selectedNode?.data?.def"class="p-button-sm p-button-warning p-mt-1" (click)="editItem()"></button>
+  <button pButton icon="pi pi-trash" label="Delete item" [disabled]="selectedNode?.data?.def"class="p-button-sm p-button-danger p-mt-1" (click)="deleteItem()"></button>
+</div>
+
 <p-tree 
   [value]="models"
   (onNodeExpand)="loadNode($event)"
@@ -5,7 +13,7 @@
   [(selection)]="selectedNode"
   (onNodeSelect)="nodeSelect()" 
   [contextMenu]="cm" 
-  scrollHeight="600px" 
+  scrollHeight="700px" 
   styleClass="test-override"
   
 >

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Type } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { MenuItem, TreeNode } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
@@ -12,6 +12,7 @@ import { CarFiltersService, BrandService, ModelService } from '@services';
 interface NodeData {
   brand?: BrandInfo
   model?: ModelInfo
+  def: boolean 
 }
 
 interface NodeExpandEvent<TData> {
@@ -25,10 +26,11 @@ interface NodeExpandEvent<TData> {
 })
 export class ModelsTreeComponent implements OnInit {
 
-  selectedNode: TreeNode<NodeData> | undefined;
+  selectedNode: TreeNode<NodeData> | undefined
   models: TreeNode<NodeData>[] = []
 
-  items: MenuItem[] = [];
+  items: MenuItem[] = []
+  menuItems: MenuItem[] = []
 
   constructor(
     private _brandService: BrandService,
@@ -38,84 +40,54 @@ export class ModelsTreeComponent implements OnInit {
     private _carFiltersService: CarFiltersService) { }
 
   update(){
-    console.log("update...")
     this.models = []
-    let allBrands = { label: "All brands", data: { brand: undefined, model: undefined}}
+    let allBrands = { label: "All brands", data: { brand: undefined, model: undefined,  def: true}}
 
     this.models.push(allBrands)
     this.selectedNode = allBrands
     this._brandService.getAll().pipe(map(d => this.brandsToNodes(d, false)))
       .subscribe(data => this.models.push(...data));
+
+    this._carFiltersService.update()
+  }
+
+  createMenuItem(label: string, icon: string, onOpen: Function){
+    return {
+      label,
+      icon: `pi ${icon}`,
+      command: () => {
+        let conf = onOpen()
+        this._dialogService.open(conf.type, { data: conf.data }).onClose.subscribe(() => this.update())
+      }
+    }
   }
 
   ngOnInit(): void {
     this.update()
 
+    this.menuItems = [
+      this.createMenuItem('Add brand', 'pi-plus', () => ({ type: BrandDialogComponent })),
+      this.createMenuItem('Add model', 'pi-plus', () => ({ type: ModelDialogComponent })),
+      this.createMenuItem('Add car', 'pi-plus', () => ({ type:  CarDialogComponent }))
+    ]
+
     this.items = [
-      { 
-        label: 'Add brand', 
-        icon: 'pi pi-plus', 
-        command: () => this._dialogService.open(BrandDialogComponent, {}).onClose.subscribe(() => this.update())
-      },
-      { 
-        label: 'Add model', 
-        icon: 'pi pi-plus', 
-        command: () => { 
-          this._dialogService.open(ModelDialogComponent, 
-            { data: { brand: this.selectedNode?.data?.brand }}).onClose.subscribe(() => this.update())
-        }
-      },
-      { 
-        label: 'Add car', 
-        icon: 'pi pi-plus', 
-        command: () => { 
-          if(!this.selectedNode || !this.selectedNode.data) return 
+      this.createMenuItem('Add brand', 'pi-plus', () => ({ type: BrandDialogComponent })),
+      this.createMenuItem('Add model', 'pi-plus', 
+        () => ({ type: ModelDialogComponent, data: {brand: this.selectedNode?.data?.brand }})),
 
-          let { brand, model } = this.selectedNode.data
-
-          this._dialogService.open(CarDialogComponent, { data: { car: { brand, model } }}).onClose.subscribe(_ => {
-            this._carFiltersService.update()
-          })
-        }
-      },
-      { 
-        label: 'Edit', 
-        icon: 'pi pi-pencil', 
-        command: () => {
-          if(!this.selectedNode || !this.selectedNode.data) return 
-
-          let { brand, model } = this.selectedNode.data
-          
-          if(!!this.selectedNode?.data?.model){
-            this._dialogService.open(ModelDialogComponent, { data: { brand, model }}).onClose.subscribe(() => this.update())
-          }else{
-            this._dialogService.open(BrandDialogComponent, { data: { brand } }).onClose.subscribe(() => this.update())
-          }
-       } 
+      this.createMenuItem('Add car', 'pi-plus', 
+        () => ({ type: CarDialogComponent, data: { car: this.selectedNode?.data }})
+      ),
+      {
+        label: 'Edit',
+        icon: 'pi pi-pencil',
+        command: () => this.editItem()
       },
       { 
         label: 'Delete',
         icon: 'pi pi-trash', 
-        command: () => { 
-          if(!this.selectedNode || !this.selectedNode.data) return
-          let { brand, model } = this.selectedNode.data
-
-          if(model) 
-            this._confirmService.confirm({ 
-              message: `Delete model '${model.name}'?`, 
-              accept: () => {
-                if(model) this._modelService.delete(model.id).subscribe(_ => this.update())
-              }
-           })
-          else if (brand){
-            this._confirmService.confirm({ 
-              message: `Delete brand '${brand.name}'?`, 
-              accept: () => {
-                if(brand) this._brandService.delete(brand.id).subscribe(_ => this.update())
-              }
-            })
-          }
-        } 
+        command: () => this.deleteItem()
       }
     ];
 
@@ -139,14 +111,48 @@ export class ModelsTreeComponent implements OnInit {
   }
 
   brandsToNodes(brands: any[], leaf: boolean) {
-    return brands.map(brand => ({ label: brand.name, leaf, data: { brand } }))
+    return brands.map(brand => ({ label: brand.name, leaf, data: { brand, def: false } }))
   }
   modelsToNodes(brand: BrandInfo){
     return map<ModelInfo[], any>(models => models.map(model => ({
       label: model.name,
       leaf: true,
-      data: {model, brand}
+      data: {model, brand, def: false}
     })))
+  }
+
+  editItem(){
+    if(!this.selectedNode?.data) return 
+    let modalType;
+
+    if(!!this.selectedNode?.data?.model){
+      modalType = ModelDialogComponent
+    } else {
+      modalType = BrandDialogComponent
+    }
+
+    this._dialogService.open(modalType, { data: this.selectedNode.data }).onClose.subscribe(() => this.update())
+  }
+
+  deleteItem(){
+    if(!this.selectedNode?.data) return
+    let { brand, model } = this.selectedNode.data
+
+    if(model) 
+      this._confirmService.confirm({ 
+        message: `Delete model '${model.name}'?`, 
+        accept: () => {
+          if(model) this._modelService.delete(model.id).subscribe(_ => this.update())
+        }
+     })
+    else if (brand){
+      this._confirmService.confirm({ 
+        message: `Delete brand '${brand.name}'?`, 
+        accept: () => {
+          if(brand) this._brandService.delete(brand.id).subscribe(_ => this.update())
+        }
+      })
+    }
   }
 }
 
