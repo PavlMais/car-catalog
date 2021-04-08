@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Car_catalog.Data.Entities;
+using Car_catalog.Data.Models;
 using Car_catalog.Data.Repositories;
 using Car_catalog.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,7 @@ namespace Car_catalog.Controllers
             var config = new MapperConfiguration(
                 cfg =>
                 {
+                    cfg.CreateMap<CarsResult, CarsResultModel>();
                     cfg.CreateMap<Car, CarModel>();
                     cfg.CreateMap<NewCarModel, Car>();
                     cfg.CreateMap<Price, PriceModel>();
@@ -36,10 +38,11 @@ namespace Car_catalog.Controllers
         }
 
         [HttpGet()]
-        public async Task<ActionResult<List<CarModel>>> GetAll([FromQuery] CarFilters carFilters)
+        public async Task<ActionResult<CarsResultModel>> GetAll([FromQuery] CarFilters carFilters)
         {
-            var cars = _mapper.Map<CarModel[]>(_carRepository.GetFiltered(carFilters));
-            return new OkObjectResult(cars);
+            var carsResult = _mapper.Map<CarsResultModel>(_carRepository.GetFiltered(carFilters));
+            
+            return new OkObjectResult(carsResult);
         }
         
         [HttpGet("{id}")]

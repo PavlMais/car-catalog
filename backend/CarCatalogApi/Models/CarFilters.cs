@@ -10,6 +10,7 @@ namespace Car_catalog.Models
         public DateTime? PriceDate { get; set; }
         public double?  EngineValume { get; set; }
         public long? ColorId { get; set; }
+        public int? Offset { get; set; }
         public int? Limit { get; set; }
         public long? BrandId { get; set; }
         public long? ModelId { get; set; }

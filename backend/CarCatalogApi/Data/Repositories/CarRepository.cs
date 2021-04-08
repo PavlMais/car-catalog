@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Car_catalog.Data.Entities;
+using Car_catalog.Data.Models;
 using Car_catalog.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +11,7 @@ namespace Car_catalog.Data.Repositories
 {
     public interface ICarRepository : IRepositoryBase<Car>
     {
-        public IEnumerable<Car> GetFiltered(CarFilters carFilters);
+        public CarsResult GetFiltered(CarFilters carFilters);
         public Task<Car> GetFullByIdAsync(long id);
     }
 
@@ -25,7 +26,7 @@ namespace Car_catalog.Data.Repositories
             return await GetAllWithFullInfo().FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public IEnumerable<Car> GetFiltered(CarFilters carFilters)
+        public CarsResult GetFiltered(CarFilters carFilters)
         {
             IQueryable<Car> cars;
             if (!carFilters.PriceFrom.HasValue && !carFilters.PriceTo.HasValue)
@@ -41,9 +42,13 @@ namespace Car_catalog.Data.Repositories
             cars = cars.Where(car => !carFilters.ColorId.HasValue || carFilters.ColorId.Value == car.ColorId);
             cars = cars.Where(car => !carFilters.BrandId.HasValue || carFilters.BrandId.Value == car.Model.BrandId);
             cars = cars.Where(car => !carFilters.ModelId.HasValue || carFilters.ModelId.Value == car.ModelId);
-                                    
-            
-            return carFilters.Limit.HasValue ? cars.Take(carFilters.Limit.Value) : cars;
+
+            var totalCount = cars.Count();
+
+            cars = carFilters.Offset.HasValue ? cars.Skip(carFilters.Offset.Value) : cars;
+            cars = carFilters.Limit.HasValue ? cars.Take(carFilters.Limit.Value) : cars;
+
+            return new CarsResult { Items = cars, TotalCount = totalCount };
         }
 
         private IQueryable<Car> GetCarsByPriceDate(DateTime date, decimal? from, decimal? to)
@@ -53,8 +58,8 @@ namespace Car_catalog.Data.Repositories
                     .Where(price => price.CreatedAt < date)
                     .OrderByDescending(price => price.CreatedAt)
                     .Take(1)
-                    .Where(price =>!from.HasValue || price.Value > from.Value)
-                    .Any(price =>!to.HasValue || price.Value < to.Value)
+                    .Where(price => !from.HasValue || price.Value >= from.Value)
+                    .Any(price => !to.HasValue || price.Value <= to.Value)
                 );
         }
         
@@ -64,8 +69,8 @@ namespace Car_catalog.Data.Repositories
                 .Where(car => car.Prices
                     .OrderByDescending(price => price.CreatedAt)
                     .Take(1)
-                    .Where(price =>!from.HasValue || price.Value > from.Value)
-                    .Any(price =>!to.HasValue || price.Value < to.Value)
+                    .Where(price => !from.HasValue || price.Value >= from.Value)
+                    .Any(price => !to.HasValue || price.Value <= to.Value)
                 );
         }
         private IQueryable<Car> GetAllWithFullInfo()
