@@ -50,7 +50,10 @@ export class ModelsListComponent {
           label: 'Delete', 
           icon: 'pi pi-fw pi-trash',
           command: (_) => {
-            this._confirmService.confirm({message: "Delete car?", accept: () => {
+            this._confirmService.confirm({
+              key: 'default',
+              message: "Delete car?", 
+            accept: () => {
               if(this.selectedCar) this._serviceCar.delete(this.selectedCar.id)
             }})
           }

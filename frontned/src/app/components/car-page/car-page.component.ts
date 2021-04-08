@@ -57,6 +57,7 @@ export class CarPageComponent  {
 
   delete(){
     this._confirmService.confirm({
+      key: 'default',
       message: 'Delete car?',
       accept: () => {
           this._carService.delete(this.car.id)

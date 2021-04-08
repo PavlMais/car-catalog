@@ -140,6 +140,7 @@ export class ModelsTreeComponent implements OnInit {
 
     if(model) 
       this._confirmService.confirm({ 
+        key: 'warning',
         message: `Delete model '${model.name}'?`, 
         accept: () => {
           if(model) this._modelService.delete(model.id).subscribe(_ => this.update())
@@ -147,6 +148,7 @@ export class ModelsTreeComponent implements OnInit {
      })
     else if (brand){
       this._confirmService.confirm({ 
+        key: 'warning',
         message: `Delete brand '${brand.name}'?`, 
         accept: () => {
           if(brand) this._brandService.delete(brand.id).subscribe(_ => this.update())
