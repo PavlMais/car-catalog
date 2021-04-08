@@ -30,6 +30,8 @@
   <span class="p-float-label  p-mt-5">
     <p-calendar 
       id="price-date-input"
+      [minDate]="oldestPrice"
+      [maxDate]="nowDate"
       dateFormat="dd.mm.yy"
       [showButtonBar]="true"
       dataType="date"

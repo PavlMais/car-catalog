@@ -12,6 +12,8 @@ export class CarsFiltersComponent implements OnInit {
   colors: ColorInfo[] = []
 
   filters: CarFilter = {} 
+  oldestPrice = new Date()
+  nowDate = new Date()
 
   constructor(
     private _serviceColor: ColorService,
@@ -19,6 +21,7 @@ export class CarsFiltersComponent implements OnInit {
 
   ngOnInit(): void {
     this._serviceColor.getAll().subscribe(c => this.colors = c)
+    this._carFiltersService.oldestPrice.subscribe(p => this.oldestPrice = p)
   }
   
   changed(key: string, value: any){
