@@ -19,5 +19,6 @@ export interface CarInfo {
   model: ModelInfo
   color: ColorInfo
   price: number
+  priceByDate?: number
   prices: PriceInfo[]
 }

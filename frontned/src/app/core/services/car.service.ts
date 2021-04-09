@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CarInfo, CarNew, CarFilter, PriceInfo } from '../models';
 import { BaseCrudService } from './base-crud.service';
 import { ApiService } from './api.service';
+import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class CarService extends BaseCrudService<CarInfo, CarNew>  {
 
   convert(data: any): CarInfo {
     let prices = data.prices.map((p: any) => 
-      ({...p, createdAt: new Date(p.createdAt).toLocaleDateString('ru')})) as PriceInfo[]
+      ({...p, createdAt: new Date(p.createdAt)})) as PriceInfo[]
 
     let car: CarInfo = {
       id: data.id,
@@ -29,5 +30,17 @@ export class CarService extends BaseCrudService<CarInfo, CarNew>  {
     
     
     return car
+  }
+
+  getFiltered(filters: CarFilter){
+    let date
+    if(filters.priceDate)
+      date = new Date((new Date(filters.priceDate)).setDate(filters.priceDate.getDate() + 1)).toJSON()
+    
+
+    let params = {...filters, priceDate: date}
+    
+
+    return this.getPaginated(params)
   }
 }

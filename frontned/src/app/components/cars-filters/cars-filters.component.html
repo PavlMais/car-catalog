@@ -18,12 +18,12 @@
   </span>
 
   <span class="p-float-label p-mt-5">
-    <p-inputNumber id="price-from-input" [(ngModel)]="filters.priceFrom" (onInput)="changed('priceFrom', $event.value)"></p-inputNumber> 
+    <p-inputNumber id="price-from-input" [min]="0" [(ngModel)]="filters.priceFrom" (onInput)="changed('priceFrom', $event.value)"></p-inputNumber> 
 
     <label for="price-from-input">Price from:</label>
   </span>
   <span class="p-float-label  p-mt-5">
-    <p-inputNumber id="price-to-input" [(ngModel)]="filters.priceTo" (onInput)="changed('priceTo', $event.value)"></p-inputNumber> 
+    <p-inputNumber id="price-to-input" [min]="0" [(ngModel)]="filters.priceTo" (onInput)="changed('priceTo', $event.value)"></p-inputNumber> 
 
     <label for="price-to-input">Price to:</label>
   </span>
@@ -42,7 +42,7 @@
   </span>
   
   <span class="p-float-label  p-mt-5">
-    <p-inputNumber id="engine-value-input" [(ngModel)]="filters.engineValume" (onInput)="changed('engineValume', $event.value)"></p-inputNumber> 
+    <p-inputNumber id="engine-value-input" [min]="0" [(ngModel)]="filters.engineValume" (onInput)="changed('engineValume', $event.value)"></p-inputNumber> 
     <label for="engine-value-input">Engine volume:</label>
   </span>
 </div>

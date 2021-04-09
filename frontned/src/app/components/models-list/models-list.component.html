@@ -8,11 +8,11 @@
         <b>Cars: {{cars.length}}</b>
         <div>
           Limit:
-          <p-inputNumber id="limit-input" [(ngModel)]="limit" (onInput)="onLimitChanged($event)" ></p-inputNumber>  
+          <p-inputNumber id="limit-input" [min]="0" [(ngModel)]="limit" (onInput)="onLimitChanged($event)" ></p-inputNumber>  
         </div>
         <div>
           Columns:
-          <p-inputNumber id="columns-input" [(ngModel)]="selectedColumns" (onInput)="onColumnsChanged($event)"></p-inputNumber> 
+          <p-inputNumber id="columns-input" [min]="1" [(ngModel)]="selectedColumns" (onInput)="onColumnsChanged($event)"></p-inputNumber> 
         </div>
       </div>
     </ng-template>
@@ -23,6 +23,7 @@
             <div><b>Brand:</b> {{car.brand.name}},</div>
             <div><b>Model:</b> {{car.model.name}},</div>
             <div><b>Price:</b> {{car.price}},</div>
+            <div *ngIf="!!car.priceByDate"><b> By date:</b> {{car.priceByDate}},</div>
             <div><b>Engine:</b> {{car.engineVolume}}</div>
           </div>
         </div>
@@ -34,6 +35,7 @@
           <div><b>Brand:</b> {{car.brand.name}}</div>
           <div><b>Model:</b> {{car.model.name}}</div>
           <div><b>Price:</b> {{car.price}}</div>
+          <div *ngIf="!!car.priceByDate"> By date: {{car.priceByDate}},</div>
           <div><b>Engine:</b> {{car.engineVolume}}</div>
         </div>
       </div>

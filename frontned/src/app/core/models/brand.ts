@@ -4,4 +4,5 @@ export interface BrandNew {
 export interface BrandInfo {
   id: number
   name: string
+  hasModels: boolean
 }

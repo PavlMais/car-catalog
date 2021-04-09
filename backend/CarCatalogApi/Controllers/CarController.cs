@@ -61,7 +61,7 @@ namespace Car_catalog.Controllers
             var car = _mapper.Map<Car>(model);
             
             _carRepository.Add(car);
-            car.Prices.Add(new Price(){Value = model.Price});
+            car.Prices.Add(new Price(){Value = model.Price, CreatedAt = DateTime.Now});
             
             await _carRepository.SaveAsync();
             
@@ -71,10 +71,10 @@ namespace Car_catalog.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(long id, [FromBody] NewCarModel model)
         {
-            var car = await _carRepository.GetByIdAsync(id);
+            var car = await _carRepository.GetFullByIdAsync(id);
             _mapper.Map(model, car);
 
-            var currentPrice = car.Prices.OrderBy(p => p.CreatedAt).First().Value;
+            var currentPrice = await _carRepository.GetCarCurrentPriceAsync(id);
 
             if (currentPrice != model.Price)
             {

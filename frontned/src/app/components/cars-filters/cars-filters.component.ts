@@ -26,7 +26,7 @@ export class CarsFiltersComponent implements OnInit {
   
   changed(key: string, value: any){
 
-    if(key === 'priceDate') value = (value as Date).toJSON();
+    if(key === 'priceDate') value = new Date(value);
 
     this._carFiltersService.updateFilters({[key]: value})
   }

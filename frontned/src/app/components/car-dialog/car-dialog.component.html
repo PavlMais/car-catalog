@@ -27,7 +27,7 @@
     </div>
     
     <span class="p-float-label p-mt-4">
-      <textarea  id="description-input" formControlName="description" [rows]="8" [cols]="50"  [class]="carForm.controls.description.errors && carForm.touched  ? 'ng-invalid ng-dirty' : ''"></textarea>
+      <textarea  id="description-input" [class.p-filled]="carForm.controls.description.value"  formControlName="description" [rows]="8" [cols]="50"  [class]="carForm.controls.description.errors && carForm.touched  ? 'ng-invalid ng-dirty' : ''"></textarea>
       <label for="description-input">Description:</label>
     </span>
     <p-button [disabled]="isLoading" type="submit">Save</p-button>

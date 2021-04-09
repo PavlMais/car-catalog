@@ -52,6 +52,7 @@ export class ModelsListComponent {
           icon: 'pi pi-fw pi-pencil',
           command: (_) => { 
             this._dialogService.open(CarDialogComponent, { data: { car: this.selectedCar }})
+              .onClose.subscribe(_ => this._carFilterService.update())
           }
         },
         {
@@ -62,7 +63,8 @@ export class ModelsListComponent {
               key: 'default',
               message: "Delete car?", 
             accept: () => {
-              if(this.selectedCar) this._serviceCar.delete(this.selectedCar.id)
+              if(this.selectedCar) 
+              this._serviceCar.delete(this.selectedCar.id).subscribe(_ => this._carFilterService.update())
             }})
           }
         }
@@ -70,7 +72,7 @@ export class ModelsListComponent {
       ];
     }
     onLimitChanged({ value }: any){
-      console.log(this.cars)
+      this.limit = value
       this._carFilterService.setLimit(value)
     }
     onColumnsChanged({ value }: any){

@@ -1,3 +1,4 @@
+import { filter, switchMap, tap, map } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -44,14 +45,18 @@ export class CarDialogComponent implements OnInit {
     this._colorService.getAll().subscribe(c => this.colors = c)
     this._brandService.getAll().subscribe(b => this.brands = b)
     
-    this.carForm.controls.brandId.valueChanges.subscribe(brandId => {
-      this._modelService.getAll({brandId}).subscribe(m => this.models = m)
-    });
+    this.carForm.controls.brandId.valueChanges.pipe(
+        filter(b => !!b), 
+        switchMap((brandId, index) => this._modelService.getAll({brandId}).pipe(map(data => ({ data, index }))) )
+    ).subscribe(m => {
+        this.models = m.data
+        if(m.index > 0) this.carForm.controls.modelId.reset()
+    })
 
     let { brand, model } = this.editingCar
-    
     this.carForm.controls.brandId.setValue(brand?.id);
     this.carForm.controls.modelId.setValue(model?.id);
+
 
     if((this.editingCar as CarInfo).id){
       let { color, description, engineVolume, price } = this.editingCar as CarInfo

@@ -2,8 +2,8 @@ import { CarInfo, CarFilter } from '@models';
 import { Observable, Subject, Observer, BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { debounceTime, distinctUntilChanged, switchMap, map, tap } from 'rxjs/operators';
-import { PaginatedResult, CarService } from '@services';
-
+import { CarService } from './car.service';
+import { PaginatedResult } from './base-crud.service'
 @Injectable({
   providedIn: 'root'
 })
@@ -18,11 +18,28 @@ export class CarFiltersService {
     this.cars = this.filters
       .pipe(
         debounceTime(500), 
-        switchMap(f => _carService.getPaginated(f)),
-        tap(res => this.updateDateRange(res.items)))
+        switchMap(f => _carService.getFiltered(f)),
+        tap(res => this.updateDateRange(res.items)),
+        map(res => ({...res, items: this.setPriceByDate(res.items)})))
 
 
   }
+  setPriceByDate(cars: CarInfo[]): CarInfo[] {
+    let priceDate = this.filters.value.priceDate
+
+    if(!priceDate) return cars
+        
+    return cars.map(car => {
+      let price = car.prices.filter(p => {
+        p.createdAt.setHours(0,0,0,0)
+        return p.createdAt <= priceDate!
+      }).slice(-1)[0]
+      
+      car.priceByDate = price.value
+      return car
+    })
+  }
+
   updateDateRange(cars: CarInfo[]){
     let allDates = cars.reduce<Date[]>((a, car) => { a.push(...car.prices.map(p => p.createdAt)); return a },[])
 

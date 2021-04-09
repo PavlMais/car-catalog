@@ -110,8 +110,8 @@ export class ModelsTreeComponent implements OnInit {
     }
   }
 
-  brandsToNodes(brands: any[], leaf: boolean) {
-    return brands.map(brand => ({ label: brand.name, leaf, data: { brand, def: false } }))
+  brandsToNodes(brands: BrandInfo[], leaf: boolean) {
+    return brands.map(brand => ({ label: brand.name, leaf: !brand.hasModels, data: { brand, def: false } }))
   }
   modelsToNodes(brand: BrandInfo){
     return map<ModelInfo[], any>(models => models.map(model => ({

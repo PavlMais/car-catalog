@@ -13,6 +13,7 @@ namespace Car_catalog.Data.Repositories
     {
         public CarsResult GetFiltered(CarFilters carFilters);
         public Task<Car> GetFullByIdAsync(long id);
+        public Task<decimal> GetCarCurrentPriceAsync(long id);
     }
 
     public class CarRepository : RepositoryBase<Car>, ICarRepository
@@ -26,11 +27,26 @@ namespace Car_catalog.Data.Repositories
             return await GetAllWithFullInfo().FirstOrDefaultAsync(c => c.Id == id);
         }
 
+        public async Task<decimal> GetCarCurrentPriceAsync(long id)
+        {
+            var car = await Context.Include(c => c.Prices).FirstOrDefaultAsync(c => c.Id == id);
+
+            return car.Prices
+                .OrderByDescending(price => price.CreatedAt)
+                .First().Value;
+        }
+
         public CarsResult GetFiltered(CarFilters carFilters)
         {
             IQueryable<Car> cars;
+
             if (!carFilters.PriceFrom.HasValue && !carFilters.PriceTo.HasValue)
-                cars = GetAllWithFullInfo();
+            {
+                if (carFilters.PriceDate.HasValue)
+                    cars = GetCarsByDate(carFilters.PriceDate.Value);
+                else
+                    cars = GetAllWithFullInfo();
+            }
             else if (carFilters.PriceDate.HasValue)
                 cars = GetCarsByPriceDate(carFilters.PriceDate.Value, carFilters.PriceFrom, carFilters.PriceTo);
             else
@@ -49,6 +65,13 @@ namespace Car_catalog.Data.Repositories
             cars = carFilters.Limit.HasValue ? cars.Take(carFilters.Limit.Value) : cars;
 
             return new CarsResult { Items = cars, TotalCount = totalCount };
+        }
+        private IQueryable<Car> GetCarsByDate(DateTime date)
+        {
+            return GetAllWithFullInfo()
+                .Where(car => car.Prices
+                    .Any(price => price.CreatedAt < date)
+                );
         }
 
         private IQueryable<Car> GetCarsByPriceDate(DateTime date, decimal? from, decimal? to)
