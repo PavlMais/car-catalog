@@ -58,7 +58,7 @@ namespace Car_catalog.Controllers
         {
             var brand = await _brandRepository.GetByIdAsync(id);
             
-            _mapper.Map(brand, model);
+            _mapper.Map(model, brand);
             _brandRepository.Update(brand);
             await _brandRepository.SaveAsync();
             
